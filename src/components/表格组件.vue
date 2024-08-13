@@ -28,6 +28,7 @@
 
 <template>
   <div>
+    <h3 v-if="筛选">{{筛选[1]}}</h3>
     <table>
       <thead>
       <tr>
@@ -71,11 +72,13 @@ export default {
       type: Number,
       default: 20,
     },
+    默认排序方向: String,
+    筛选:Array
   },
   data() {
     return {
       当前排序列: this.默认排序列,
-      排序方向: 'asc',
+      排序方向: 'desc',
       当前页: 0,
       悬停行: -1,
     };
@@ -83,6 +86,9 @@ export default {
   computed: {
     排序数据() {
       const sortedData = this.数据.slice().sort((a, b) => {
+        if (this.默认排序方向){
+          this.排序方向 = this.默认排序方向;
+        }
         if (this.排序方向 === 'asc') {
           return a[this.当前排序列] > b[this.当前排序列] ? 1 : -1;
         } else {
@@ -91,9 +97,20 @@ export default {
       });
       return sortedData;
     },
+    筛选数据(){
+      if(! this.筛选){return this.排序数据;}
+      const [key, value] = this.筛选;
+      const filteredData =  this.排序数据.filter(item => item[key] === value);
+      console.log(filteredData)
+      return filteredData
+
+
+    }
+    ,
     分页数据() {
       const start = this.当前页 * this.显示总行数;
-      return this.排序数据.slice(start, start + this.显示总行数);
+
+      return this.筛选数据.slice(start, start + this.显示总行数);
     },
   },
   methods: {
@@ -121,7 +138,7 @@ export default {
 
 <style scoped>
 table {
-  width: 100%;
+  width: 800px;
   border-collapse: collapse;
 }
 
