@@ -55,9 +55,9 @@ export default {
     handleInput(event) {
       // 获取输入值并清除逗号
       // const value = event.target.value.replace(/,/g, '');
-      console.log(event)
+
       const value =金币格式转换(event.target.value,true)
-      console.log(value)
+
       // 更新原始值
       this.rawValue = value;
     },
@@ -65,7 +65,7 @@ export default {
       this.数据=[]
       let 数据 = await checkMo(undefined,this.等级限制,undefined, this.日销售量, this.rawValue);
       this.数据 = 数据;
-      console.log(数据)
+
     }
   },
 
@@ -98,7 +98,7 @@ export default {
 
       ],
       默认排序列: "日最大经验",
-      显示总行数: 20,
+      显示总行数: 15,
     };
   },
 };

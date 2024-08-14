@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <a @click="this.mo=! this.mo">点这里切换升级小熊手或飞龙小熊手</a>
+    <a @click="this.mo=! this.mo">{{转换提示}}</a>
 
     <br>
     <ParentComponent v-if="mo" />
@@ -24,6 +24,17 @@ export default {
       // 数据
     };
   },
+  computed: {
+    转换提示(){
+      if(this.mo){
+        return "点击切换飞龙小熊手"
+      }else{
+        return "点击切换升级小熊手"
+      }
+    }
+  }
+
+,
   methods: {
     // 方法
   },

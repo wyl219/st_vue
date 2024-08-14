@@ -32,7 +32,8 @@
     <table>
       <thead>
       <tr>
-        <th
+        <th class="表序号">序号</th>
+        <th  class="表内容"
             v-for="(value, key) in 表头"
             :key="key"
             @click="排序(value)"
@@ -51,7 +52,8 @@
           @mouseout="悬停行 = -1"
           :style="{ backgroundColor: 悬停行 === index ? 'yellow' : '' }"
       >
-        <td v-for="(value, key) in 表头" :key="key">{{ item[value] }}</td>
+        <td  class="表序号">{{index+1}}</td>
+        <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ item[value] }}</td>
       </tr>
       </tbody>
     </table>
@@ -109,8 +111,13 @@ export default {
     ,
     分页数据() {
       const start = this.当前页 * this.显示总行数;
-
-      return this.筛选数据.slice(start, start + this.显示总行数);
+      let  t=this.筛选数据.slice(start, start + this.显示总行数);
+      console.log(t)
+      if (t.length < this.显示总行数) {
+        for (let i = t.length; i < this.显示总行数; i++)
+          t.push({});
+      }
+      return t;
     },
   },
   methods: {
@@ -142,6 +149,15 @@ table {
   border-collapse: collapse;
 }
 
+ .表序号{
+  width: 50px;
+   text-align: center;
+}
+ .表内容{
+   width: 100px;
+   text-align: center;
+ }
+
 th {
   background-color: white;
   color: black;
@@ -155,7 +171,7 @@ td {
 }
 
 .alternate-row {
-  background-color: gray;
+  background-color: #b9bab9;
 }
 
 .active {

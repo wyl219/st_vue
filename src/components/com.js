@@ -293,6 +293,7 @@ async function getOrderDrawings_air(blueprint, 有飞龙分 = true) {
     }
     blueprint['品质'] = ZH_JSON[blueprint['tag1'] + '_name'];
     if (!blueprint['goldPrice'] ){
+        blueprint['goldPrice']="-"
         blueprint['净利润'] ="-";
         blueprint['飞龙分单价'] = "-"
     }else {
