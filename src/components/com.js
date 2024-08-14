@@ -73,7 +73,7 @@ async function getBp(uid) {
     let 飞龙威力, 飞龙类别;
     if (!["符文石", "月光石", "材料", "光环", "使魔"].includes(装备类别)) {
         飞龙威力 = Math.floor(
-            itemData['atk'] * 0.8 + itemData['def'] * 1.2 + itemData['hp'] * 5 +
+            (itemData['atk'] * 0.8 + itemData['def'] * 1.2 + itemData['hp'] * 5) *
             (1 + itemData['eva'] * 10 + itemData['crit'] * 10)
         );
         飞龙类别 = {
@@ -109,6 +109,33 @@ async function getBp(uid) {
         }
     }
 
+    let 亲和=""
+    let t_亲和=[];
+    if (itemData['elementAffinity']){
+        // if(itemData['elementAffinity']==="gold"){
+        //     t_亲和.push("黄金")
+        // }else{
+        // t_亲和.push(ZH_JSON[itemData["element_"+'elementAffinity']])
+        // }
+        t_亲和.push(ZH_JSON["element_"+itemData['elementAffinity']])
+    }
+    if (itemData['spiritAffinity']){
+        t_亲和.push(ZH_JSON[itemData['spiritAffinity']+"_name_o"])
+    }
+    if (t_亲和.length>0){
+
+        亲和=t_亲和.join(',')
+    }
+    let 自带附魔;
+    if (itemData["lTag2"]||itemData["lTag3"]){
+        自带附魔=true
+    }else  {
+        自带附魔=false
+    }
+
+
+
+
     return {
         itemData,
         enName,
@@ -118,6 +145,9 @@ async function getBp(uid) {
         飞龙类别,
         单工人经验,
         里程碑价格加成,
+        亲和,
+        自带附魔
+
     };
 }
 
@@ -258,13 +288,17 @@ async function getOrderDrawings_air(blueprint, 有飞龙分 = true) {
 
     const bpData = await getBp(uid);
     blueprint = { ...blueprint, ...bpData };
-    if (!blueprint['goldPrice'] || (有飞龙分 && ! blueprint['飞龙威力'] ) ) {
+    if  (有飞龙分 && ! blueprint['飞龙威力'] )  {
         return null;
     }
     blueprint['品质'] = ZH_JSON[blueprint['tag1'] + '_name'];
-    blueprint['净利润'] = itemData['value'] - blueprint['goldPrice'];
-    blueprint['飞龙分单价'] = Math.floor( blueprint['净利润'] / blueprint['飞龙威力'])
-
+    if (!blueprint['goldPrice'] ){
+        blueprint['净利润'] ="-";
+        blueprint['飞龙分单价'] = "-"
+    }else {
+        blueprint['净利润'] = itemData['value'] - blueprint['goldPrice'];
+        blueprint['飞龙分单价'] = Math.floor(blueprint['净利润'] / blueprint['飞龙威力'])
+    }
     return blueprint;
 }
 // 主函数
