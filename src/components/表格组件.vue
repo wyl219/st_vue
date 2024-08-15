@@ -51,6 +51,7 @@
           @mouseover="悬停行 = index"
           @mouseout="悬停行 = -1"
           :style="{ backgroundColor: 悬停行 === index ? 'yellow' : '' }"
+          @click="handleRowClick(item,$event)"
       >
         <td  class="表序号">{{index+1}}</td>
         <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ item[value] }}</td>
@@ -103,7 +104,7 @@ export default {
       if(! this.筛选){return this.排序数据;}
       const [key, value] = this.筛选;
       const filteredData =  this.排序数据.filter(item => item[key] === value);
-      console.log(filteredData)
+
       return filteredData
 
 
@@ -112,7 +113,7 @@ export default {
     分页数据() {
       const start = this.当前页 * this.显示总行数;
       let  t=this.筛选数据.slice(start, start + this.显示总行数);
-      console.log(t)
+
       if (t.length < this.显示总行数) {
         for (let i = t.length; i < this.显示总行数; i++)
           t.push({});
@@ -121,6 +122,28 @@ export default {
     },
   },
   methods: {
+    handleRowClick(item,event) {
+
+      // 获取当前行
+      const currentRow = event.target.closest('tr');
+
+      if (currentRow.classList.contains('highlight')) {
+        // 如果已经高亮，则移除highlight类
+        currentRow.classList.remove('highlight');
+        // 返回当前行的item
+        this.$emit('row-cancel-clicked', item);
+      } else {
+        // 如果没有高亮，则移除其他行的highlight类，并添加highlight类到当前行
+        const rows = this.$el.querySelectorAll('tr');
+        rows.forEach(row => row.classList.remove('highlight'));
+        currentRow.classList.add('highlight');
+        // 返回当前行的item
+
+        this.$emit('row-clicked', item);
+      }
+
+
+    },
     排序(列) {
       if (this.当前排序列 === 列) {
         this.排序方向 = this.排序方向 === 'asc' ? 'desc' : 'asc';
@@ -144,6 +167,9 @@ export default {
 </script>
 
 <style scoped>
+.highlight {
+  background-color: red  !important;
+}
 table {
   width: 800px;
   border-collapse: collapse;

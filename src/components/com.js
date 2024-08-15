@@ -5,6 +5,7 @@ async function getJson(url) {
         for (let i = 0; i < 5; i++) {
             let response = await fetch(url);
             if (response.ok) {
+                console.log(`获取${url}成功`,Date.now())
                 return await response.json();
             }
         }
@@ -12,15 +13,39 @@ async function getJson(url) {
         console.error(`获取${url}失败:`, e);
     }
 }
-
 async function getAll() {
-     ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
-     EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
-     ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
-     ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
+    console.time('items.json');
+    ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
+    console.timeEnd('items.json');
+
+    console.time('texts_en.json');
+    EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
+    console.timeEnd('texts_en.json');
+
+    console.time('texts_zh.json');
+    ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
+    console.timeEnd('texts_zh.json');
+
+    console.time('item_type_zh.json');
+    ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
+    console.timeEnd('item_type_zh.json');
+
+    console.time('last/all');
     let data = await getJson('https://smartytitans.com/api/item/last/all');
+    console.timeEnd('last/all');
+
+    console.log(`获取${data['data'].length}个物品成功`);
     return data['data'];
 }
+// async function getAll() {
+//      ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
+//      EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
+//      ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
+//      ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
+//     let data = await getJson('https://smartytitans.com/api/item/last/all');
+//     console.log(`获取${data['data'].length}个物品成功`,Date.now())
+//     return data['data'];
+// }
 
 let ITEM_JSON
 let EN_JSON
@@ -39,7 +64,9 @@ const MUNDRA_PRICE = {
     mundraamulet: 21000,
 };
 
+/// 缺少高品质对价格和属性的加成
 async function getBp(uid) {
+    // 获取蓝图的信息
     let itemData = JSON.parse(JSON.stringify(ITEM_JSON[uid]));  // Deep copy
     const enName = EN_JSON[`${uid}_name`];
 
@@ -76,6 +103,7 @@ async function getBp(uid) {
             (itemData['atk'] * 0.8 + itemData['def'] * 1.2 + itemData['hp'] * 5) *
             (1 + itemData['eva'] * 10 + itemData['crit'] * 10)
         );
+        if(uid==="artifactgun")飞龙威力*=1.2; // 屠龙大炮特殊加成
         飞龙类别 = {
             "a": "护甲",
             "b": "副甲",
@@ -85,7 +113,7 @@ async function getBp(uid) {
             "u": "饰品",
             "x": "饰品",
             "f": "饰品",
-            "z": "其他",
+            "z": "附魔",
         }[itemData['type'][0]];
     } else {
         飞龙威力 = 0;
@@ -173,12 +201,14 @@ export function 金币格式转换(金币, s2i = false) {
             if (金币 === 0) {
                 return "0";
             } else {
+                let 正负flag= 金币 >= 0 ? "" : "-";
+                金币=Math.abs(金币)
                 let 单位索引 = 0;
                 while (金币 >= 1000 && 单位索引 < 单位.length - 1) {
                     金币 /= 1000;
                     单位索引++;
                 }
-                return `${金币.toFixed(1)}${单位[单位索引]}`;
+                return `${正负flag}${金币.toFixed(1)}${单位[单位索引]}`;
             }
         } else {
             return 金币;
@@ -229,6 +259,7 @@ export  async function checkMo(tTypeFil = 'o', tierFil = null, tag1Fil = null, n
 
     // 从API中获取数据
     const listAll = await getAll();
+    console.log(listAll)
     // console.log(listAll)
     const newList = filList(listAll, tTypeFil, tierFil, tag1Fil);
     console.log(newList)
@@ -276,7 +307,11 @@ function filDataDesc(dataDesc) {
     });
     return Array.from(uniqueMap.values());
 }
+
+
+
 // 飞龙
+
 async function getOrderDrawings_air(blueprint, 有飞龙分 = true) {
     const uid = blueprint['uid'];
     const itemData = Object.values(ITEM_JSON).find(v => v['uid'] === uid);
@@ -300,16 +335,35 @@ async function getOrderDrawings_air(blueprint, 有飞龙分 = true) {
         blueprint['净利润'] = itemData['value'] - blueprint['goldPrice'];
         blueprint['飞龙分单价'] = Math.floor(blueprint['净利润'] / blueprint['飞龙威力'])
     }
+     if (!blueprint["tier"]){blueprint["tier"]=itemData['tier']} // 用于补充项目
     return blueprint;
 }
+
+// 加一个函数 遍历ITEM_JSON,将所有有飞龙分的项目补充进列表里.
+
+async function 补充项目 (uid){
+    const blueprint={"uid":uid,"goldPrice":null,"tag1":"common"}
+    return  await getOrderDrawings_air(blueprint);
+}
+
+
 // 主函数
 export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["common"] ) {
     console.log(`\n限制条件,最大等级限制:${tierFil} \n`);
 
+    // tag1Fil = ["epic"]
+
+
     // 从API中获取数据
+    console.time('getall');
     const listAll = await getAll();
+    console.timeEnd('getall');
+
     // console.log(listAll)
+    console.time('fillist');
     const newList = filList(listAll, tTypeFil, tierFil, tag1Fil);
+    console.timeEnd('fillist');
+
     console.log(newList)
     const setList = [];
 
@@ -322,6 +376,25 @@ export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["comm
         // console.log(orderDrawing)
         setList.push(orderDrawing);
     }
+
+    // 补充项目
+    for (let uid in ITEM_JSON) {
+
+        if (tTypeFil && ITEM_JSON[uid]['tType'] !== tTypeFil) continue;
+        if (tierFil && ITEM_JSON[uid]['tier'] > tierFil) continue;
+
+        if  (setList.find(item => item.uid === uid)){continue} // 判断是否已经存在
+
+        const orderDrawing = await 补充项目(uid);
+
+        // console.log(orderDrawing)
+        if (!orderDrawing) continue;
+
+
+        // console.log(orderDrawing)
+        setList.push(orderDrawing);
+    }
+
     // console.log(setList)
     // 清理数据
     const cleanedList = filDataDesc(setList);
@@ -330,6 +403,6 @@ export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["comm
     const sortedDataDesc = cleanedList.sort((a, b) => b['飞龙威力'] - a['飞龙威力']);
     // showData(sortedDataDesc.slice(0, 20));
     console.log("返回了：")
-    console.log(sortedDataDesc.slice(0, 20))
+    console.log(sortedDataDesc)
     return sortedDataDesc;
 }
