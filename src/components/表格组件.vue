@@ -47,10 +47,13 @@
       <tr
           v-for="(item, index) in 分页数据"
           :key="item.uid"
-          :class="{ 'alternate-row': index % 2 === 1 }"
+          :class="{ 'alternate-row': index % 2 === 1,
+           highlight:item.uid===sel_uid
+          }"
           @mouseover="悬停行 = index"
           @mouseout="悬停行 = -1"
           :style="{ backgroundColor: 悬停行 === index ? 'yellow' : '' }"
+
           @click="handleRowClick(item,$event)"
       >
         <td  class="表序号">{{index+1}}</td>
@@ -78,24 +81,40 @@ export default {
     默认排序方向: String,
     筛选:Array
   },
+  watch : {
+    筛选数据(){
+
+      if(this.筛选数据.length>0){
+        this.handleRowClick(this.筛选数据[0],"")
+
+      }
+    }
+
+  }
+  ,
   data() {
     return {
       当前排序列: this.默认排序列,
       排序方向: 'desc',
       当前页: 0,
       悬停行: -1,
+      sel_uid:0
     };
   },
   computed: {
     排序数据() {
       const sortedData = this.数据.slice().sort((a, b) => {
-        if (this.默认排序方向){
+        if (!this.排序方向){
           this.排序方向 = this.默认排序方向;
         }
         if (this.排序方向 === 'asc') {
+          // this.排序方向 = 'desc'
           return a[this.当前排序列] > b[this.当前排序列] ? 1 : -1;
+
         } else {
+          // this.排序方向 = 'asc'
           return a[this.当前排序列] < b[this.当前排序列] ? 1 : -1;
+
         }
       });
       return sortedData;
@@ -104,7 +123,6 @@ export default {
       if(! this.筛选){return this.排序数据;}
       const [key, value] = this.筛选;
       const filteredData =  this.排序数据.filter(item => item[key] === value);
-
       return filteredData
 
 
@@ -123,24 +141,36 @@ export default {
   },
   methods: {
     handleRowClick(item,event) {
-
-      // 获取当前行
-      const currentRow = event.target.closest('tr');
-
-      if (currentRow.classList.contains('highlight')) {
-        // 如果已经高亮，则移除highlight类
-        currentRow.classList.remove('highlight');
+      console.log(item)
+      if(!item.uid)return;
+      if(item.uid===this.sel_uid){
+        this.sel_uid=0
         // 返回当前行的item
         this.$emit('row-cancel-clicked', item);
-      } else {
-        // 如果没有高亮，则移除其他行的highlight类，并添加highlight类到当前行
-        const rows = this.$el.querySelectorAll('tr');
-        rows.forEach(row => row.classList.remove('highlight'));
-        currentRow.classList.add('highlight');
+      }else{
+        this.sel_uid=item.uid
         // 返回当前行的item
-
         this.$emit('row-clicked', item);
       }
+      //
+      //
+      // // 获取当前行
+      // const currentRow = event.target.closest('tr');
+      //
+      // if (currentRow.classList.contains('highlight')) {
+      //   // 如果已经高亮，则移除highlight类
+      //   currentRow.classList.remove('highlight');
+      //   // 返回当前行的item
+      //   this.$emit('row-cancel-clicked', item);
+      // } else {
+      //   // 如果没有高亮，则移除其他行的highlight类，并添加highlight类到当前行
+      //   const rows = this.$el.querySelectorAll('tr');
+      //   rows.forEach(row => row.classList.remove('highlight'));
+      //   currentRow.classList.add('highlight');
+      //   // 返回当前行的item
+      //
+      //   this.$emit('row-clicked', item);
+      // }
 
 
     },

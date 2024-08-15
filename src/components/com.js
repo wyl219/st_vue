@@ -220,11 +220,11 @@ export function 金币格式转换(金币, s2i = false) {
 
 
 // 过滤列表函数
-function filList(listAll, tTypeFil = 'o', tierFil = null, tag1Fil = ["common", "uncommon", "flawless", "epic", "legendary"]) {
+function filList(listAll, tTypeFil = 'o', tierFil = null,mintierFil=null, tag1Fil = ["common", "uncommon", "flawless", "epic", "legendary"]) {
     return listAll.filter(item => {
         // console.log(item, tTypeFil, tierFil, tag1Fil)
         if (tTypeFil && item['tType'] !== tTypeFil) return false;
-        if (tierFil && item['tier'] > tierFil) return false;
+        if (tierFil && (item['tier'] > tierFil || item['tier']<mintierFil)) return false;
         if (!item['tag1']) item['tag1'] = 'common';
         if (tag1Fil && !tag1Fil.includes(item['tag1'])) return false;
         return true;
@@ -257,11 +257,12 @@ async function getOrderDrawings(blueprint, hasProfit = false, hasExperience = tr
 export  async function checkMo(tTypeFil = 'o', tierFil = null, tag1Fil = null, numDay = 200, money = 1000000) {
     console.log(`\n限制条件,最大等级限制:${tierFil} ;日最大出售量:${numDay} ;金币限制:${money}\n`);
 
+    let mintierFil=tierFil-3
     // 从API中获取数据
     const listAll = await getAll();
     console.log(listAll)
     // console.log(listAll)
-    const newList = filList(listAll, tTypeFil, tierFil, tag1Fil);
+    const newList = filList(listAll, tTypeFil, tierFil,mintierFil, tag1Fil);
     console.log(newList)
     const setList = [];
     for (const blueprint of newList) {
@@ -350,7 +351,7 @@ async function 补充项目 (uid){
 // 主函数
 export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["common"] ) {
     console.log(`\n限制条件,最大等级限制:${tierFil} \n`);
-
+    let mintierFil=tierFil-3
     // tag1Fil = ["epic"]
 
 
@@ -361,7 +362,7 @@ export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["comm
 
     // console.log(listAll)
     console.time('fillist');
-    const newList = filList(listAll, tTypeFil, tierFil, tag1Fil);
+    const newList = filList(listAll, tTypeFil, tierFil,mintierFil, tag1Fil,);
     console.timeEnd('fillist');
 
     console.log(newList)
@@ -381,7 +382,7 @@ export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["comm
     for (let uid in ITEM_JSON) {
 
         if (tTypeFil && ITEM_JSON[uid]['tType'] !== tTypeFil) continue;
-        if (tierFil && ITEM_JSON[uid]['tier'] > tierFil) continue;
+        if (tierFil && (ITEM_JSON[uid]['tier'] > tierFil||ITEM_JSON[uid]['tier'] <mintierFil)) continue;
 
         if  (setList.find(item => item.uid === uid)){continue} // 判断是否已经存在
 
