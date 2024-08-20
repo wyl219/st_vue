@@ -1,6 +1,6 @@
 
 // com.data_import
-async function getJson(url) {
+export async function getJson(url) {
     try {
         for (let i = 0; i < 5; i++) {
             let response = await fetch(url);

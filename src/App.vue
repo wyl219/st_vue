@@ -1,26 +1,35 @@
 <template>
   <div id="app">
-    <a @click="this.mo=! this.mo">{{转换提示}}</a>
+    <div>
+      <a v-if="this.mo!==1" @click="this.mo=1">切换升级小熊手</a>
+      <a v-if="this.mo!==2" @click="this.mo=2">切换飞龙小熊手</a>
+      <a v-if="this.mo!==3" @click="this.mo=3">切换勇士小熊手</a>
+    </div>
 
     <br>
-    <ParentComponent v-if="mo" />
-    <ParentComponent1 v-if="! mo" />
+    <div>
+      <ParentComponent v-if="mo===1" />
+      <ParentComponent1 v-if="mo===2" />
+      <calendar v-if="mo===3" />
+    </div>
   </div>
 </template>
 
 <script>
 import ParentComponent from './components/日最大经验.vue';
 import ParentComponent1 from './components/飞龙计算.vue';
+import calendar from './components/日历.vue';
 
 export default {
   name: 'App',
   components: {
     ParentComponent,
-    ParentComponent1
+    ParentComponent1,
+    calendar,
   },
   data() {
     return {
-      mo:true
+      mo:1
       // 数据
     };
   },

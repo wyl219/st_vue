@@ -79,7 +79,7 @@ export default {
       default: 20,
     },
     默认排序方向: String,
-    筛选:Array
+    筛选:Function,
   },
   watch : {
     筛选数据(){
@@ -121,10 +121,11 @@ export default {
     },
     筛选数据(){
       if(! this.筛选){return this.排序数据;}
-      const [key, value] = this.筛选;
-      const filteredData =  this.排序数据.filter(item => item[key] === value);
-      return filteredData
-
+      // const [key, value] = this.筛选;
+      // const filteredData =  this.排序数据.filter(item => item[key] === value);
+      // return filteredData
+      // console.log(this.筛选)
+      return  this.排序数据.filter(item => this.筛选(item));
 
     }
     ,

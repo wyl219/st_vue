@@ -19,7 +19,7 @@
         :默认排序列="默认排序列"
         :显示总行数="显示总行数"
         :默认排序方向="默认排序方向"
-        :筛选="['飞龙类别', '武器']"
+        :筛选="(x)=>x['飞龙类别']==='武器'"
         @row-clicked="handleRowClicked"
         @row-cancel-clicked="handleRowCancelClicked"
     />
@@ -29,7 +29,7 @@
         :默认排序列="默认排序列"
         :显示总行数="显示总行数"
         :默认排序方向="默认排序方向"
-        :筛选="['飞龙类别', '饰品']"
+        :筛选="(x)=>x['飞龙类别']==='饰品'"
         @row-clicked="handleRowClicked"
         @row-cancel-clicked="handleRowCancelClicked"
     />
@@ -39,7 +39,8 @@
         :默认排序列="默认排序列"
         :显示总行数="显示总行数"
         :默认排序方向="默认排序方向"
-        :筛选="['飞龙类别', '护甲']"
+
+        :筛选="(x)=> x['飞龙类别']==='护甲'"
         @row-clicked="handleRowClicked"
         @row-cancel-clicked="handleRowCancelClicked"
     />
@@ -49,7 +50,7 @@
         :默认排序列="默认排序列"
         :显示总行数="显示总行数"
         :默认排序方向="默认排序方向"
-        :筛选="['飞龙类别', '副甲']"
+        :筛选="(x)=> x['飞龙类别']==='副甲'"
         @row-clicked="handleRowClicked"
         @row-cancel-clicked="handleRowCancelClicked"
     />
