@@ -6,6 +6,10 @@ export default {
       type: Object,
       default: () => ({}),  // 默认值为空对象
     },
+    装备类型:{
+      type: Object,
+      default: () => ({}),  // 默认值为空对象
+    }
   },
   computed:{
     整合数据(){
@@ -31,6 +35,16 @@ export default {
       });
 
       return result;
+    },
+    筛选后数据(){
+      console.log(this.整合数据)
+
+      if (this.装备类型.length<1) {
+
+        return this.整合数据}
+
+      const 筛选后数据 = this.整合数据.filter(item => {return this.装备类型[item[0]]})
+      return 筛选后数据
     }
   },
   data(){
@@ -86,13 +100,13 @@ export default {
 <!--  > {{item[0]}}-->
 <!--  </span>-->
 <!--  <span >,</span>-->
-  <span v-for="(item, index) in 整合数据" :key="index">
+  <span v-for="(item, index) in 筛选后数据" :key="index">
     <span :class="{
           [`times_${item[1]}`]: true,
           '氪金线': 氪金工人装备类型[item[0]]
         }">
       {{ item[0] }}</span>
-    <span v-if="index < 整合数据.length - 1">,</span>
+    <span v-if="index < 筛选后数据.length - 1">,</span>
   </span>
 
 </div>

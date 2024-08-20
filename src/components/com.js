@@ -91,7 +91,9 @@ async function getBp(uid) {
         }
 
         if (MUNDRA_PRICE.hasOwnProperty(uid)) {
+            console.log(uid)
             itemData['value'] = MUNDRA_PRICE[uid];
+            console.log(itemData['value'])
         } else {
             itemData['value'] += ltag['value'] * 0.1;
         }
@@ -239,14 +241,24 @@ async function getOrderDrawings(blueprint, hasProfit = false, hasExperience = tr
     if (!itemData) {
         console.log("没找到",uid)
         return null}
-    if (!blueprint['goldPrice'] || (hasProfit && itemData['value'] < blueprint['goldPrice']) || (hasExperience && itemData['xp'] === 0)) {
-        return null;
-    }
+
 
     const bpData = await getBp(uid);
     blueprint = { ...blueprint, ...bpData };
     blueprint['品质'] = ZH_JSON[blueprint['tag1'] + '_name'];
-    blueprint['净利润'] = itemData['value'] - blueprint['goldPrice'];
+    blueprint['净利润'] = blueprint['itemData']['value'] - blueprint['goldPrice'];
+
+    if (!blueprint['goldPrice'] || (hasProfit &&  blueprint['净利润']<0 ) || (hasExperience && itemData['xp'] === 0)) {
+        return null;
+    }
+
+    // if(uid==="mundraamulet"){
+    //     console.log(itemData['value'] )
+    //     console.log(blueprint['itemData']['value'] )
+    //     console.log(blueprint['itemData']['xp'] )
+    //     console.log(blueprint['goldPrice'])
+    //     console.log(blueprint['净利润'])
+    // }
 
     return blueprint;
 }
