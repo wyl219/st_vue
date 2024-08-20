@@ -12,21 +12,35 @@
     <span style="color:purple;font-size: larger" >紫色大号字</span>表示同时有三个勇士需求.
   </p>
 </div>
+  <div>
+    <a @click="show筛选=!show筛选">点击打开筛选</a>
+    <shaixuan v-show="show筛选"
+              :筛选类型="'主要材料装备类型'"
+              @切换筛选="切换筛选($event)"
+    />
+  </div>
 <rili
     :数据="数据"
-
+    :装备类型="装备类型"
 />
 </template>
 <script >
 import calendar from './calendar.js'
 // import {hero} from './calendar.js'
 import rili from './子日历.vue'
+import shaixuan from './筛选组件.vue'
 export default {
-  components:{rili},
+  components:{rili,
+    shaixuan},
   methods:{
     async tt(){
       this.数据= await calendar()
       console.log(this.数据)
+    },
+    切换筛选(装备类型){
+      // console.log(装备类型)
+      this.装备类型=装备类型
+      console.log(this.装备类型)
     }
   },
   async created() {
@@ -34,7 +48,9 @@ export default {
   },
   data(){
     return {
-      数据:{}
+      数据:{},
+      show筛选:true,
+      装备类型:[]
     }
   }
 

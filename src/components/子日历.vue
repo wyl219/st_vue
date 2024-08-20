@@ -13,6 +13,7 @@
         <div v-for="date in dates" :key="date" class="calendar-cell">
           <CellComponent
                          :数据="数据[getTimestamp(date, hour)]"
+                         :装备类型="装备类型"
 
           />
         </div>
@@ -31,6 +32,10 @@ export default {
       type: Object,
       default: () => ({}),  // 默认值为空对象
     },
+    装备类型:{
+      type: Object,
+      default: () => ({}),  // 默认值为空对象
+    }
   },
   methods:{
     // 生成对应单元格的时间戳
