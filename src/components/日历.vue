@@ -15,7 +15,9 @@
   <div>
     <a @click="show筛选=!show筛选">点击打开筛选</a>
     <shaixuan v-show="show筛选"
-              :筛选类型="'主要材料装备类型'"
+              :仅装备=true
+              :主要材料筛选=true
+              :氪金筛选=true
               @切换筛选="切换筛选($event)"
     />
   </div>
@@ -35,7 +37,7 @@ export default {
   methods:{
     async tt(){
       this.数据= await calendar()
-      console.log(this.数据)
+      // console.log(this.数据)
     },
     切换筛选(装备类型){
       // console.log(装备类型)
@@ -49,7 +51,7 @@ export default {
   data(){
     return {
       数据:{},
-      show筛选:true,
+      show筛选:false,
       装备类型:[]
     }
   }

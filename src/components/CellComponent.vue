@@ -37,7 +37,7 @@ export default {
       return result;
     },
     筛选后数据(){
-      console.log(this.整合数据)
+      // console.log(this.整合数据)
 
       if (this.装备类型.length<1) {
 

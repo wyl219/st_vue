@@ -23,12 +23,26 @@
     </label>
     <br>
 
-    <a @click="tt()">点击更新</a>
+
+
+    <div>
+      <a @click="tt()">点击更新</a>
+      <a @click="show筛选=!show筛选">点击打开筛选</a>
+      <shaixuan v-show="show筛选"
+                :仅装备=true
+                :主要材料筛选=true
+                :氪金筛选=true
+                @切换筛选="切换筛选($event)"
+      />
+    </div>
+
+
     <TableComponent
         :表头="表头"
         :数据="数据"
         :默认排序列="默认排序列"
         :显示总行数="显示总行数"
+        :装备类型筛选="装备类型"
     />
     <p>
       使用说明:<br>
@@ -45,10 +59,12 @@
 <script >
 import TableComponent from './表格组件.vue';
 import {checkMo , 金币格式转换 } from './com.js'
+import shaixuan from "@/components/筛选组件.vue";
 
 
 export default {
   components: {
+    shaixuan,
     TableComponent,
   },
   methods: {
@@ -66,6 +82,11 @@ export default {
       let 数据 = await checkMo(undefined,this.等级限制,undefined, this.日销售量, this.rawValue);
       this.数据 = 数据;
 
+    },
+    切换筛选(装备类型){
+      // console.log(装备类型)
+      this.装备类型=装备类型
+      // console.log(this.装备类型)
     }
   },
 
@@ -88,7 +109,7 @@ export default {
       等级限制:7,
       日销售量:200,
       // 最大金币消耗:1000000,
-
+      show筛选:false,
       表头: { "名称": "名称",
         "等级": "tier","类别":"装备类别","品质":"品质",
         "市场价": "goldPrice", "净利润": "净利润","日最大经验":"日最大经验",
@@ -97,6 +118,7 @@ export default {
       数据: [
 
       ],
+      装备类型:[],
       默认排序列: "日最大经验",
       显示总行数: 15,
     };

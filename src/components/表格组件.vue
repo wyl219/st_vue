@@ -80,6 +80,11 @@ export default {
     },
     默认排序方向: String,
     筛选:Function,
+    装备类型筛选:{
+      type:Object,
+      default: ()=>{}
+
+    }
   },
   watch : {
     筛选数据(){
@@ -120,12 +125,24 @@ export default {
       return sortedData;
     },
     筛选数据(){
-      if(! this.筛选){return this.排序数据;}
+      let r=this.排序数据;
+      if( this.筛选){
+        r=this.排序数据.filter(item => this.筛选(item));
+      }
+
+      if(Object.keys(this.装备类型筛选).length>1){
+
+        r=r.filter(item =>
+
+          this.装备类型筛选[item['装备类别']]);
+
+      }
+      return r
       // const [key, value] = this.筛选;
       // const filteredData =  this.排序数据.filter(item => item[key] === value);
       // return filteredData
       // console.log(this.筛选)
-      return  this.排序数据.filter(item => this.筛选(item));
+
 
     }
     ,

@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      mo:3
+      mo:1
       // 数据
     };
   },
