@@ -82,7 +82,7 @@ export default {
     筛选:Function,
     装备类型筛选:{
       type:Object,
-      default: ()=>{}
+      default: ()=>{return {}}
 
     }
   },
@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     handleRowClick(item,event) {
-      console.log(item)
+      // console.log(item)
       if(!item.uid)return;
       if(item.uid===this.sel_uid){
         this.sel_uid=0

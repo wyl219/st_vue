@@ -14,27 +14,27 @@ export async function getJson(url) {
     }
 }
 async function getAll() {
-    console.time('items.json');
+    // console.time('items.json');
     ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
-    console.timeEnd('items.json');
-
-    console.time('texts_en.json');
+    // console.timeEnd('items.json');
+    //
+    // console.time('texts_en.json');
     EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
-    console.timeEnd('texts_en.json');
-
-    console.time('texts_zh.json');
+    // console.timeEnd('texts_en.json');
+    //
+    // console.time('texts_zh.json');
     ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
-    console.timeEnd('texts_zh.json');
-
-    console.time('item_type_zh.json');
+    // console.timeEnd('texts_zh.json');
+    //
+    // console.time('item_type_zh.json');
     ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
-    console.timeEnd('item_type_zh.json');
-
-    console.time('last/all');
+    // console.timeEnd('item_type_zh.json');
+    //
+    // console.time('last/all');
     let data = await getJson('https://smartytitans.com/api/item/last/all');
-    console.timeEnd('last/all');
-
-    console.log(`获取${data['data'].length}个物品成功`);
+    // console.timeEnd('last/all');
+    //
+    // console.log(`获取${data['data'].length}个物品成功`);
     return data['data'];
 }
 // async function getAll() {
@@ -91,9 +91,9 @@ async function getBp(uid) {
         }
 
         if (MUNDRA_PRICE.hasOwnProperty(uid)) {
-            console.log(uid)
+            // console.log(uid)
             itemData['value'] = MUNDRA_PRICE[uid];
-            console.log(itemData['value'])
+            // console.log(itemData['value'])
         } else {
             itemData['value'] += ltag['value'] * 0.1;
         }
@@ -222,11 +222,16 @@ export function 金币格式转换(金币, s2i = false) {
 
 
 // 过滤列表函数
-function filList(listAll, tTypeFil = 'o', tierFil = null,mintierFil=null, tag1Fil = ["common", "uncommon", "flawless", "epic", "legendary"]) {
+function filList(listAll, tTypeFil = 'o',等级范围=null, tag1Fil = ["common", "uncommon", "flawless", "epic", "legendary"]) {
+    console.log(等级范围)
+
     return listAll.filter(item => {
         // console.log(item, tTypeFil, tierFil, tag1Fil)
         if (tTypeFil && item['tType'] !== tTypeFil) return false;
-        if (tierFil && (item['tier'] > tierFil || item['tier']<mintierFil)) return false;
+        if (等级范围 && ( !等级范围.includes(item['tier'] ))) {
+            // console.log(item['tier'])
+            return false
+        };
         if (!item['tag1']) item['tag1'] = 'common';
         if (tag1Fil && !tag1Fil.includes(item['tag1'])) return false;
         return true;
@@ -266,15 +271,20 @@ async function getOrderDrawings(blueprint, hasProfit = false, hasExperience = tr
 
 
 // 主函数
-export  async function checkMo(tTypeFil = 'o', tierFil = null, tag1Fil = null, numDay = 200, money = 1000000) {
-    console.log(`\n限制条件,最大等级限制:${tierFil} ;日最大出售量:${numDay} ;金币限制:${money}\n`);
+export  async function checkMo(tTypeFil = 'o', 等级范围 = null, tag1Fil = null,
+                               numDay = 200, money = 1000000,
 
-    let mintierFil=tierFil-3
+                               ) {
+
+
+
+    console.log(`\n限制条件,等级范围:${等级范围} ;日最大出售量:${numDay} ;金币限制:${money}\n`);
+    // console.log(等级范围)
     // 从API中获取数据
     const listAll = await getAll();
     console.log(listAll)
     // console.log(listAll)
-    const newList = filList(listAll, tTypeFil, tierFil,mintierFil, tag1Fil);
+    const newList = filList(listAll, tTypeFil,等级范围, tag1Fil);
     console.log(newList)
     const setList = [];
     for (const blueprint of newList) {
@@ -361,21 +371,23 @@ async function 补充项目 (uid){
 
 
 // 主函数
-export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["common"] ) {
-    console.log(`\n限制条件,最大等级限制:${tierFil} \n`);
-    let mintierFil=tierFil-3
-    // tag1Fil = ["epic"]
+export  async function checkAir(tTypeFil = 'o', 等级范围 = null ,tag1Fil = ["common"] ) {
+
+
+    console.log(`\n限制条件,等级范围:${等级范围} `);
+
+
 
 
     // 从API中获取数据
-    console.time('getall');
+    // console.time('getall');
     const listAll = await getAll();
-    console.timeEnd('getall');
+    // console.timeEnd('getall');
 
     // console.log(listAll)
-    console.time('fillist');
-    const newList = filList(listAll, tTypeFil, tierFil,mintierFil, tag1Fil,);
-    console.timeEnd('fillist');
+    // console.time('fillist');
+    const newList = filList(listAll, tTypeFil, 等级范围, tag1Fil,);
+    // console.timeEnd('fillist');
 
     console.log(newList)
     const setList = [];
@@ -394,7 +406,7 @@ export  async function checkAir(tTypeFil = 'o', tierFil = null, tag1Fil = ["comm
     for (let uid in ITEM_JSON) {
 
         if (tTypeFil && ITEM_JSON[uid]['tType'] !== tTypeFil) continue;
-        if (tierFil && (ITEM_JSON[uid]['tier'] > tierFil||ITEM_JSON[uid]['tier'] <mintierFil)) continue;
+        if (等级范围 && ! 等级范围.includes(ITEM_JSON[uid]['tier'] )) continue;
 
         if  (setList.find(item => item.uid === uid)){continue} // 判断是否已经存在
 

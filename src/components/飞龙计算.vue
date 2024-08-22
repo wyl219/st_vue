@@ -2,9 +2,15 @@
 
   <div>
     <h1>飞龙小熊手</h1>
-    <label>等级限制
-    <input type="number" v-model="等级限制" placeholder="等级限制">
-    </label>
+
+    <LevelInput
+        @等级="设定等级"
+        :rawLevel="等级范围.join(',')"
+    >等级限制</LevelInput>
+
+<!--    <label>等级限制-->
+<!--    <input type="number" v-model="等级限制" placeholder="等级限制">-->
+<!--    </label>-->
     <br>
     <TableComponent1
         :表头="汇总表头"
@@ -67,23 +73,32 @@
 </template>
 
 <script >
+
 import TableComponent from './表格组件.vue';
 import TableComponent1 from './汇总表格组件.vue';
 import {checkAir , 金币格式转换 } from './com.js'
+import LevelInput from "@/components/等级组件.vue";
 
 
 export default {
   components: {
+    LevelInput,
     TableComponent,
     TableComponent1
   },
   methods: {
+    设定等级(new等级范围){
+      // console.log(new等级范围)
+      this.等级范围=new等级范围
+      console.log(this.等级范围)
+      this.tt()
+    },
 
     async tt() {
 
       this.数据=[]
-
-      this.数据 = await checkAir(undefined,this.等级限制);
+      console.log(this.等级范围)
+      this.数据 = await checkAir(undefined,this.等级范围);
 
     },
     handleRowClicked(row) {
@@ -115,6 +130,7 @@ export default {
   },
   data() {
     return {
+      等级范围:[5,6,7],
       汇总表头: { "名称": "名称",
         "等级": "tier","类别":"装备类别","品质":"品质",
         "市场价": "goldPrice", "净利润": "净利润","飞龙威力":"飞龙威力",
