@@ -1,10 +1,16 @@
 <template>
   <div>
     <h1>升级小熊手</h1>
-    <label>等级限制
-    <input type="number" v-model="等级限制" placeholder="等级限制">
-    </label>
-    <br>
+
+    <LevelInput
+        @等级="设定等级"
+        :rawLevel="等级范围.join(',')"
+    >等级限制</LevelInput>
+<!--    <br>-->
+<!--    <label>等级限制-->
+<!--    <input type="number" v-model="等级限制" placeholder="等级限制">-->
+<!--    </label>-->
+<!--    <br>-->
     <label>日销售量
       <input type="number" v-model="日销售量" placeholder="日销售量">
     </label>
@@ -19,6 +25,7 @@
           :value="formattedValue"
           @change ="handleInput"
           placeholder="最大金币消耗"
+
       />
     </label>
     <br>
@@ -26,11 +33,11 @@
 
 
     <div>
-      <a @click="tt()">点击更新</a>
+      <a @click="tt($event)">点击更新</a>
       <a @click="show筛选=!show筛选">点击打开筛选</a>
       <shaixuan v-show="show筛选"
-                :仅装备=true
-                :主要材料筛选=true
+                :仅装备=false
+                :家具筛选=true
                 :氪金筛选=true
                 @切换筛选="切换筛选($event)"
       />
@@ -57,6 +64,7 @@
 </template>
 
 <script >
+import LevelInput from './等级组件.vue';
 import TableComponent from './表格组件.vue';
 import {checkMo , 金币格式转换 } from './com.js'
 import shaixuan from "@/components/筛选组件.vue";
@@ -66,8 +74,15 @@ export default {
   components: {
     shaixuan,
     TableComponent,
+    LevelInput,
   },
   methods: {
+    设定等级(new等级范围){
+      // console.log(new等级范围)
+      this.等级范围=new等级范围
+      // console.log(this.等级范围)
+      this.tt()
+    },
     handleInput(event) {
       // 获取输入值并清除逗号
       // const value = event.target.value.replace(/,/g, '');
@@ -77,9 +92,10 @@ export default {
       // 更新原始值
       this.rawValue = value;
     },
-    async tt() {
+    async tt(event) {
+
       this.数据=[]
-      let 数据 = await checkMo(undefined,this.等级限制,undefined, this.日销售量, this.rawValue);
+      let 数据 = await checkMo(undefined,this.等级范围,undefined, this.日销售量, this.rawValue);
       this.数据 = 数据;
 
     },
@@ -106,7 +122,7 @@ export default {
   data() {
     return {
       rawValue: 1000000, // 存储原始的输入值
-      等级限制:7,
+      等级范围:[5,6,7],
       日销售量:200,
       // 最大金币消耗:1000000,
       show筛选:false,
