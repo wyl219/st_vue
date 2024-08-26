@@ -1,9 +1,14 @@
 <template>
   <div id="app">
     <div>
-      <a v-if="this.mo!==1" @click="this.mo=1">切换升级小熊手</a>
-      <a v-if="this.mo!==2" @click="this.mo=2">切换飞龙小熊手</a>
-      <a v-if="this.mo!==3" @click="this.mo=3">切换勇士小熊手</a>
+      <select  :value="语言" @change="setLang">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
+      <a v-if="this.mo!==1" @click="()=>修改模块(1)">切换升级小熊手</a>
+      <a v-if="this.mo!==2" @click="()=>修改模块(2)">切换飞龙小熊手</a>
+      <a v-if="this.mo!==3" @click="()=>修改模块(3)">切换勇士小熊手</a>
     </div>
 
     <br>
@@ -19,37 +24,70 @@
 import ParentComponent from './components/日最大经验.vue';
 import ParentComponent1 from './components/飞龙计算.vue';
 import calendar from './components/日历.vue';
+import {computed} from "vue";
+import {useCounterStore} from "@/stores/useCounterStore.js";
+
+import {ref} from "vue";
 
 export default {
-  name: 'App',
   components: {
     ParentComponent,
     ParentComponent1,
     calendar,
   },
-  data() {
-    return {
-      mo:1
-      // 数据
-    };
-  },
-  computed: {
-    转换提示(){
-      if(this.mo){
-        return "点击切换飞龙小熊手"
-      }else{
-        return "点击切换升级小熊手"
-      }
-    }
-  }
 
-,
-  methods: {
-    // 方法
+  setup(){
+
+    const store = useCounterStore();
+
+    let mo=computed(() => store.模块选择)
+
+    let 语言=computed(() => store.lang)
+
+    const setLang=(event)=>{
+      console.log(event.target.value)
+      store.setLang(event.target.value)
+    }
+
+    return{
+      语言,
+      mo,
+      修改模块:store.修改模块,
+      setLang,
+    }
   },
-  mounted() {
-    // 组件挂载后
-  }
+
+
+
+//
+//   components: {
+//     ParentComponent,
+//     ParentComponent1,
+//     calendar,
+//   },
+//   data() {
+//     return {
+//       mo:1
+//       // 数据
+//     };
+//   },
+//   computed: {
+//     转换提示(){
+//       if(this.mo){
+//         return "点击切换飞龙小熊手"
+//       }else{
+//         return "点击切换升级小熊手"
+//       }
+//     }
+//   }
+//
+// ,
+//   methods: {
+//     // 方法
+//   },
+//   mounted() {
+//     // 组件挂载后
+//   }
 };
 </script>
 

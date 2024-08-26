@@ -28,6 +28,7 @@ export default {
   methods:{
     处理等级并返回(event){
       let v=event.target.value
+      console.log(v)
       // 用正则表达式提取出输入中的所有数字
       let numbers = v.match(/\d+/g) || [];
 
@@ -39,10 +40,11 @@ export default {
         max=0
         min=0
         r=[]
-      }else if (numbers===1){
+      }else if (numbers.length===1){
         max=numbers[0]
-        min=max-3
+        min=max-2
         r=Array.from({ length: max -min+1 }, (_, i) => i +min);
+
       }else if (numbers.length===2){
         max=Math.max(...numbers)
         min=Math.min(...numbers)
@@ -55,7 +57,7 @@ export default {
 
       }
 
-      console.log(r)
+
       if (1<=min&& max<=14){
         this.inputLevel = r.toString()
         this.$emit('等级',r)
@@ -64,6 +66,7 @@ export default {
 
         alert("请输入1-14之间的数字")
       }
+      console.log(r)
 
     }
   }
