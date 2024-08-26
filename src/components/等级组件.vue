@@ -39,9 +39,9 @@ export default {
         max=0
         min=0
         r=[]
-      }else if (numbers===1){
+      }else if (numbers.length===1){
         max=numbers[0]
-        min=max-3
+        min=max-2
         r=Array.from({ length: max -min+1 }, (_, i) => i +min);
       }else if (numbers.length===2){
         max=Math.max(...numbers)
