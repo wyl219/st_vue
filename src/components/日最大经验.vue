@@ -6,18 +6,11 @@
         @等级="设定等级"
         :rawLevel="等级范围.join(',')"
     >等级限制</LevelInput>
-<!--    <br>-->
-<!--    <label>等级限制-->
-<!--    <input type="number" v-model="等级限制" placeholder="等级限制">-->
-<!--    </label>-->
-<!--    <br>-->
+
     <label>日销售量
       <input type="number" v-model="日销售量" placeholder="日销售量">
     </label>
     <br>
-<!--    <label>最大金币消耗-->
-<!--      <input type="number" v-model="最大金币消耗" placeholder="最大金币消耗">-->
-<!--    </label>-->
     <label>
       最大金币消耗
       <input
@@ -84,9 +77,6 @@ export default {
       this.tt()
     },
     handleInput(event) {
-      // 获取输入值并清除逗号
-      // const value = event.target.value.replace(/,/g, '');
-
       const value =金币格式转换(event.target.value,true)
 
       // 更新原始值

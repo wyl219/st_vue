@@ -282,10 +282,10 @@ export  async function checkMo(tTypeFil = 'o', 等级范围 = null, tag1Fil = nu
     // console.log(等级范围)
     // 从API中获取数据
     const listAll = await getAll();
-    console.log(listAll)
+    // console.log(listAll)
     // console.log(listAll)
     const newList = filList(listAll, tTypeFil,等级范围, tag1Fil);
-    console.log(newList)
+    // console.log(newList)
     const setList = [];
     for (const blueprint of newList) {
         const orderDrawing = await getOrderDrawings(blueprint);
@@ -314,8 +314,8 @@ export  async function checkMo(tTypeFil = 'o', 等级范围 = null, tag1Fil = nu
     // 排序并展示前20条数据
     const sortedDataDesc = cleanedList.sort((a, b) => b['日最大经验'] - a['日最大经验']);
     // showData(sortedDataDesc.slice(0, 20));
-    console.log("返回了：")
-    console.log(sortedDataDesc.slice(0, 20))
+    // console.log("返回了：")
+    // console.log(sortedDataDesc.slice(0, 20))
     return sortedDataDesc;
 }
 
