@@ -138,11 +138,6 @@ export default {
 
       }
       return r
-      // const [key, value] = this.筛选;
-      // const filteredData =  this.排序数据.filter(item => item[key] === value);
-      // return filteredData
-      // console.log(this.筛选)
-
 
     }
     ,
@@ -170,25 +165,6 @@ export default {
         // 返回当前行的item
         this.$emit('row-clicked', item);
       }
-      //
-      //
-      // // 获取当前行
-      // const currentRow = event.target.closest('tr');
-      //
-      // if (currentRow.classList.contains('highlight')) {
-      //   // 如果已经高亮，则移除highlight类
-      //   currentRow.classList.remove('highlight');
-      //   // 返回当前行的item
-      //   this.$emit('row-cancel-clicked', item);
-      // } else {
-      //   // 如果没有高亮，则移除其他行的highlight类，并添加highlight类到当前行
-      //   const rows = this.$el.querySelectorAll('tr');
-      //   rows.forEach(row => row.classList.remove('highlight'));
-      //   currentRow.classList.add('highlight');
-      //   // 返回当前行的item
-      //
-      //   this.$emit('row-clicked', item);
-      // }
 
 
     },
@@ -250,5 +226,6 @@ td {
 
 .active {
   font-weight: bold;
+  color: blue;
 }
 </style>
