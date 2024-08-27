@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div>
-      <select  :value="语言" @change="setLang">
-        <option value="zh">中文</option>
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-      </select>
+<!--      <select  :value="语言" @change="setLang">-->
+<!--        <option value="zh">中文</option>-->
+<!--        <option value="en">English</option>-->
+<!--        <option value="de">Deutsch</option>-->
+<!--      </select>-->
       <a v-if="this.mo!==1" @click="()=>修改模块(1)">切换升级小熊手</a>
       <a v-if="this.mo!==2" @click="()=>修改模块(2)">切换飞龙小熊手</a>
       <a v-if="this.mo!==3" @click="()=>修改模块(3)">切换勇士小熊手</a>
