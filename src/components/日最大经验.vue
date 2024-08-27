@@ -30,6 +30,7 @@
                 :仅装备=false
                 :家具筛选=true
                 :氪金筛选=true
+                :筛选字典="装备类型"
                 @切换筛选="切换筛选($event)"
       />
     </div>
@@ -121,12 +122,16 @@ export default {
     },
     切换筛选(装备类型){
       // console.log(装备类型)
-      this.装备类型=装备类型
+      // this.装备类型=装备类型
+      this.store.set升级筛选(装备类型)
       // console.log(this.装备类型)
     }
   },
 
   computed: {
+    装备类型(){
+      return this.store.升级筛选
+    },
     formattedValue() {
 
       // 清除非数字字符
@@ -160,7 +165,7 @@ export default {
       数据: [
 
       ],
-      装备类型:[],
+      // 装备类型:[],
       默认排序列: "日最大经验",
       显示总行数: 15,
     };
