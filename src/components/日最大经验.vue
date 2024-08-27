@@ -22,7 +22,7 @@
       />
     </label>
     <br>
-
+    <a v-if="金币消息.length>0" @click="设定金币消耗(金币消息[1])">{{金币消息[0]}}<br></a>
     <div>
       <a @click="tt($event)">点击更新</a>
       <a @click="show筛选=!show筛选">点击打开筛选</a>
@@ -60,6 +60,8 @@ import TableComponent from './表格组件.vue';
 import {checkMo , 金币格式转换 } from './com.js'
 import shaixuan from "@/components/筛选组件.vue";
 import {useCounterStore} from "@/stores/useCounterStore.js";
+import {getJson} from "./com.js";
+
 
 export default {
   components: {
@@ -78,14 +80,38 @@ export default {
       // console.log(this.等级范围)
       this.tt()
     },
+    设定金币消耗(new金币消耗){
+      this.store.set升级金币限制(new金币消耗)
+      this.tt()
+    },
+
     handleInput(event) {
       const value =金币格式转换(event.target.value,true)
       // 更新原始值
       this.store.set升级金币限制(value)
       // this.rawValue = value;
     },
+    async 判断金币数量(){
+      let 金币列表= await getJson('http://101.35.240.107/data/平均价格.json');
+      let 金币数量=this.rawValue
+      let 日销售量=this.日销售量
+      let 设定平均金币数量=Math.ceil(金币数量/日销售量)
+      let 最大等级=Math.max(...this.等级范围)
+      let 平均价格=Math.ceil(金币列表[最大等级]['平均价格'])
+      console.log(平均价格)
+      if(设定平均金币数量>平均价格*5){
+        this.金币消息=[`当前的设定最大装备等级为${最大等级},该等级下不含黄金装备的平均价值为${平均价格},而你设置的平均价格为${设定平均金币数量},大于平均价格的${5}倍,点击这里将其设定为平均价格的4倍,并重新更新`,
+          平均价格*4*日销售量]
+      }else if(设定平均金币数量<平均价格*0.5){
+        this.金币消息=[`当前的设定最大装备等级为${最大等级},该等级下不含黄金装备的平均价值为${平均价格},而你设置的平均价格为${设定平均金币数量},小于平均价格的${0.5}倍,点击这里将其设定为平均价格的4倍,并重新更新`,
+          平均价格*4*日销售量]
+      }else{
+        this.金币消息=[]
+      }
+    },
     async tt(event) {
-
+      // 判断金币数量
+      await this.判断金币数量()
       this.数据=[]
       let 数据 = await checkMo(undefined,this.等级范围,undefined, this.日销售量, this.rawValue);
       this.数据 = 数据;
@@ -100,6 +126,7 @@ export default {
 
   computed: {
     formattedValue() {
+
       // 清除非数字字符
       // const numericValue = this.rawValue.replace(/,/g, '');
       const numericValue =金币格式转换(this.rawValue)
@@ -121,10 +148,7 @@ export default {
   data() {
     return {
       store:useCounterStore(),
-      // rawValue: 1000000, // 存储原始的输入值
-      // 等级范围:[5,6,7],
-      // 日销售量:200,
-      // 最大金币消耗:1000000,
+      金币消息:[],
       show筛选:false,
       表头: { "名称": "名称",
         "等级": "tier","类别":"装备类别","品质":"品质",

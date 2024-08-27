@@ -46,9 +46,9 @@
       <tbody>
       <tr
           v-for="(item, index) in 分页数据"
-          :key="item.uid"
+          :key="item.id"
           :class="{ 'alternate-row': index % 2 === 1,
-           highlight:item.uid===sel_uid
+           highlight:item.id===sel_id
           }"
           @mouseover="悬停行 = index"
           @mouseout="悬停行 = -1"
@@ -103,7 +103,7 @@ export default {
       排序方向: 'desc',
       当前页: 0,
       悬停行: -1,
-      sel_uid:0
+      sel_id:0
     };
   },
   computed: {
@@ -160,13 +160,13 @@ export default {
   methods: {
     handleRowClick(item,event) {
       // console.log(item)
-      if(!item.uid)return;
-      if(item.uid===this.sel_uid){
-        this.sel_uid=0
+      if(!item.id)return;
+      if(item.id===this.sel_id){
+        this.sel_id=0
         // 返回当前行的item
         this.$emit('row-cancel-clicked', item);
       }else{
-        this.sel_uid=item.uid
+        this.sel_id=item.id
         // 返回当前行的item
         this.$emit('row-clicked', item);
       }
