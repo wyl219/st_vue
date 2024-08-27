@@ -18,6 +18,7 @@
               :仅装备=true
               :主要材料筛选=true
               :氪金筛选=true
+              :筛选字典="装备类型"
               @切换筛选="切换筛选($event)"
     />
   </div>
@@ -31,9 +32,17 @@ import calendar from './calendar.js'
 // import {hero} from './calendar.js'
 import rili from './子日历.vue'
 import shaixuan from './筛选组件.vue'
+import {useCounterStore} from "@/stores/useCounterStore.js";
 export default {
   components:{rili,
     shaixuan},
+  computed:{
+    装备类型(){
+      return this.store.日历筛选
+    }
+    }
+
+  ,
   methods:{
     async tt(){
       this.数据= await calendar()
@@ -41,8 +50,9 @@ export default {
     },
     切换筛选(装备类型){
       // console.log(装备类型)
-      this.装备类型=装备类型
-      console.log(this.装备类型)
+      // this.装备类型=装备类型
+      this.store.set日历筛选(装备类型)
+      // console.log(this.装备类型)
     }
   },
   async created() {
@@ -50,9 +60,10 @@ export default {
   },
   data(){
     return {
+      store: useCounterStore(),
       数据:{},
       show筛选:false,
-      装备类型:[]
+
     }
   }
 

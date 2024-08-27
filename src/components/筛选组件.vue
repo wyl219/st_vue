@@ -32,10 +32,11 @@
 export default {
 
   props:{
-    // 筛选类型: {
-    //   type: String,
-    //   default: () => (''),  // 默认值为空对象
-    // },
+    筛选字典:{
+      type:Object,
+      default:()=>({}),
+    },
+
     氪金筛选:{
       type:Boolean,
       default:()=>false,
@@ -54,11 +55,51 @@ export default {
     },
   },
   computed:{
-    // 筛选字典(){
-    //   if(this.筛选类型 === '家具类别筛选'){return this.家具类别筛选}
-    //   if(this.筛选类型 === '主要材料装备类型'){return this.主要材料装备类型}
-    //   return {"装备类型":this.装备类型}
-    // }
+物品类型(){
+
+  if (Object.keys(this.筛选字典).length>0){
+    return this.筛选字典
+  }else{
+    return{
+      "重甲": true,
+      "轻甲": true,
+      "中甲": true,
+      "重鞋": true,
+      "轻鞋": true,
+      "铁护手": true,
+      "护腕": true,
+      "头盔": true,
+      "法师帽": true,
+      "盗贼帽": true,
+      "草药": true,
+      "药水": true,
+      "法术": true,
+      "斧": true,
+      "弓": true,
+      "弩": true,
+      "匕首": true,
+      "火枪": true,
+      "锤": true,
+      "矛": true,
+      "剑": true,
+      "法杖": true,
+      "魔杖": true,
+      "护身符": true,
+      "斗篷": true,
+      "使魔": true,
+      "戒指": true,
+      "盾牌": true,
+      "符文石": true,
+      "附魔": true,
+      "月光石": true,
+      "光环": true,
+      "餐食": true,
+      "甜点": true,
+      "材料": true,
+      "乐器": true
+    }
+  }
+}
   },
   methods: {
     big筛选(values,event){
@@ -123,44 +164,44 @@ export default {
 
   data() {
     return {
-      物品类型: {
-        "重甲": true,
-        "轻甲": true,
-        "中甲": true,
-        "重鞋": true,
-        "轻鞋": true,
-        "铁护手": true,
-        "护腕": true,
-        "头盔": true,
-        "法师帽": true,
-        "盗贼帽": true,
-        "草药": true,
-        "药水": true,
-        "法术": true,
-        "斧": true,
-        "弓": true,
-        "弩": true,
-        "匕首": true,
-        "火枪": true,
-        "锤": true,
-        "矛": true,
-        "剑": true,
-        "法杖": true,
-        "魔杖": true,
-        "护身符": true,
-        "斗篷": true,
-        "使魔": true,
-        "戒指": true,
-        "盾牌": true,
-        "符文石": true,
-        "附魔": true,
-        "月光石": true,
-        "光环": true,
-        "餐食": true,
-        "甜点": true,
-        "材料": true,
-        "乐器": true
-      },
+      // 物品类型: {
+      //   "重甲": true,
+      //   "轻甲": true,
+      //   "中甲": true,
+      //   "重鞋": true,
+      //   "轻鞋": true,
+      //   "铁护手": true,
+      //   "护腕": true,
+      //   "头盔": true,
+      //   "法师帽": true,
+      //   "盗贼帽": true,
+      //   "草药": true,
+      //   "药水": true,
+      //   "法术": true,
+      //   "斧": true,
+      //   "弓": true,
+      //   "弩": true,
+      //   "匕首": true,
+      //   "火枪": true,
+      //   "锤": true,
+      //   "矛": true,
+      //   "剑": true,
+      //   "法杖": true,
+      //   "魔杖": true,
+      //   "护身符": true,
+      //   "斗篷": true,
+      //   "使魔": true,
+      //   "戒指": true,
+      //   "盾牌": true,
+      //   "符文石": true,
+      //   "附魔": true,
+      //   "月光石": true,
+      //   "光环": true,
+      //   "餐食": true,
+      //   "甜点": true,
+      //   "材料": true,
+      //   "乐器": true
+      // },
       装备类型: {
         "重甲": true,
         "轻甲": true,

@@ -6,6 +6,7 @@ export const useCounterStore = defineStore('counter', {
         模块选择: 1, // 初始值为1
         lang:"zh",
         飞龙等级限制:[5,6,7],
+        日历筛选:{}
     }),
     actions: {
         修改模块(模块编号) {
@@ -17,8 +18,10 @@ export const useCounterStore = defineStore('counter', {
         },
         set飞龙等级限制(等级限制) {
             this.飞龙等级限制 = 等级限制
-
         },
+        set日历筛选(日历筛选) {
+            this.日历筛选 = 日历筛选},
+
     },
     persist: {
         enabled: true, // 启用持久化
