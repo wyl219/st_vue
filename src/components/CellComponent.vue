@@ -1,22 +1,43 @@
 <script >
+
+import {calendarByTime} from './calendar.js'
 export default {
 
   props:{
-    数据: {
-      type: Object,
-      default: () => ({}),  // 默认值为空对象
-    },
+
     装备类型:{
       type: Object,
       default: () => ({}),  // 默认值为空对象
+    },
+    时间戳:{
+      type: Number,
+      default: 0,  // 默认值为空对象
     }
   },
+  async mounted() {
+    await this.getData();
+
+  },
+  methods:{
+    async getData(){
+      this.新数据= await calendarByTime(this.时间戳)
+}
+  } ,
   computed:{
-    整合数据(){
+    //  新数据(){
+    // return this.getData()
+    // },
+
+
+     整合数据(){
+      // this.新数据
       const cnTypeCount = {};
-      let data=this.数据
+      let data=  this.新数据
+      // console.log(data)
       // 遍历每个角色的数据
       for (const key in data) {
+        // console.log(key)
+
         const cnTypes = data[key].cnType;
 
         // 统计每个 cnType 出现的次数
@@ -34,6 +55,7 @@ export default {
         return [ key, value ];
       });
 
+       // console.log(result)
       return result;
     },
     筛选后数据(){
@@ -49,6 +71,7 @@ export default {
   },
   data(){
     return {
+      新数据:null,
       氪金工人装备类型: {
         "重甲": false,
         "轻甲": false,
@@ -92,20 +115,13 @@ export default {
 <template>
 <div>
 
-<!--  <span v-for="(item, index)  in 整合数据" :key="index"-->
-<!--        :class="{-->
-<!--        [`times_${item[1]}`]: true,-->
-<!--        '氪金线': 氪金工人装备类型[item[0]]-->
-<!--      }"-->
-<!--  > {{item[0]}}-->
-<!--  </span>-->
-<!--  <span >,</span>-->
+
   <span v-for="(item, index) in 筛选后数据" :key="index">
     <span :class="{
           [`times_${item[1]}`]: true,
           '氪金线': 氪金工人装备类型[item[0]]
         }">
-      {{ item[0] }}</span>
+      {{ item[0]  }}</span>
     <span v-if="index < 筛选后数据.length - 1">,</span>
   </span>
 

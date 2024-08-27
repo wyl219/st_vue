@@ -1,29 +1,32 @@
 <template>
   <div class="calendar">
 
-    <div class="calendar-time-header">
-      <div class="calendar-time"></div> <!-- 空白单元格用于对齐 -->
-      <div v-for="date in dates" :key="date" class="calendar-date">
+    <tr class="calendar-time-header">
+      <th class="calendar-time"></th> <!-- 空白单元格用于对齐 -->
+      <th v-for="date in dates" :key="date" class="calendar-date">
         {{ date }}
-      </div>
-    </div>
-    <div class="calendar-body">
-      <div v-for="hour in hours" :key="hour" class="calendar-row">
-        <div class="calendar-time">{{ hour }}:00</div>
-        <div v-for="date in dates" :key="date" class="calendar-cell">
+      </th>
+    </tr>
+    <table class="calendar-body">
+      <tr v-for="hour in hours" :key="hour" class="calendar-row">
+        <td class="calendar-time">{{ getLocalHour(hour) }}</td>
+        <td v-for="date in dates" :key="date" class="calendar-cell">
+
           <CellComponent
-                         :数据="数据[getTimestamp(date, hour)]"
+
                          :装备类型="装备类型"
+                         :时间戳="getTimestamp(date, hour)"
 
           />
-        </div>
-      </div>
-    </div>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
-import CellComponent from './CellComponent.vue'; // 假设每个单元格的组件叫做CellComponent
+import CellComponent from './CellComponent.vue';
+import {useCounterStore} from "@/stores/useCounterStore.js"; // 假设每个单元格的组件叫做CellComponent
 
 export default {
   components: { CellComponent },
@@ -37,19 +40,50 @@ export default {
       default: () => ({}),  // 默认值为空对象
     }
   },
+  computed:{
+    hours(){
+      return  this.store.日历显示时间
+    }
+  },
   methods:{
+    // 根据UTC小时数,生成本地小时数
+    getLocalHour(utcHour) {
+      const offset = new Date().getTimezoneOffset()/60;
+      // console.log(offset)
+      let localHour =  utcHour -offset ;
+      let sAdd=""
+      if(localHour < 0){
+        localHour+=24
+        sAdd="(-1D)"
+      }else if(localHour>=24){
+        localHour-=24
+        sAdd="(+1D)"
+      }
+      let s=`${localHour}:00${sAdd}\n(UTC${utcHour}:00)`
+      return s
+
+    },
     // 生成对应单元格的时间戳
     getTimestamp(date, hour) {
 
       const [year,month, day] = date.split('/').map(Number);
-      const dateObj = new Date(year, month - 1, day, hour);
-      return dateObj.getTime();
+      // const dateObj = new Date(year, month - 1, day, hour);
+
+
+      // return dateObj.getTime();
+
+      return Date.UTC(year, month - 1, day, hour);
     },
   },
   data() {
     const today = new Date();
     const dates = [];
-    const hours = Array.from({length: 24}, (_, i) => i);
+    const store= useCounterStore()
+    // const hours = Array.from({length: 24}, (_, i) => i);
+
+    // const hours = [-8,-4,0,12]
+    // const hours = [0,12,16,20]
+    // const hours =store.日历显示时间
 
     // 生成从今天开始的7天日期数组
     for (let i = 0; i < 4; i++) {
@@ -59,8 +93,9 @@ export default {
     }
 
     return {
+      store,
       dates,
-      hours,
+      // hours,
     };
   },
 };
