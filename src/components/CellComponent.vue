@@ -49,7 +49,6 @@ export default {
           }
         });
       }
-
       // 转换为数组形式
       const result = Object.entries(cnTypeCount).map(([key, value]) => {
         return [ key, value ];
@@ -61,7 +60,8 @@ export default {
     筛选后数据(){
       // console.log(this.整合数据)
 
-      if (this.装备类型.length<1) {
+
+      if (Object.keys(this.装备类型).length<1) {
 
         return this.整合数据}
 

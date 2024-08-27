@@ -8,7 +8,7 @@ export const useCounterStore = defineStore('counter', {
         飞龙等级限制:[5,6,7],
         日历筛选:{},
         日历显示时间:[0,12,16,20],
-        日历使用UTC时间:true,
+        日历使用UTC时间:false,
         升级等级限制:[5,6,7],
         升级数量限制:200,
         升级金币限制:10**6,

@@ -11,6 +11,7 @@
     <span style="color:red;font-size: large" >红色中号字</span>表示在这个时间段该装备同时有两个勇士需求.
     <span style="color:purple;font-size: larger" >紫色大号字</span>表示同时有三个勇士需求.
   </p>
+  <p>注意:这里<span style="color: red;font-size:large ">保存了你之前设定的筛选</span>,如果有部分装备类型不显示,请在筛选中点击"全选" </p>
   <label> <input type="radio" :value="true" v-model="useUTC" > 以UTC时间排序
     <input type="radio" :value="false" v-model="useUTC"> 以本地时间排序
   </label>
