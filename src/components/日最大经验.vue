@@ -8,7 +8,7 @@
     >等级限制</LevelInput>
 
     <label>日销售量
-      <input type="number" v-model="日销售量" placeholder="日销售量">
+      <input type="number" :value="日销售量" @change="修改日销售量" placeholder="日销售量">
     </label>
     <br>
     <label>
@@ -22,8 +22,6 @@
       />
     </label>
     <br>
-
-
 
     <div>
       <a @click="tt($event)">点击更新</a>
@@ -61,7 +59,7 @@ import LevelInput from './等级组件.vue';
 import TableComponent from './表格组件.vue';
 import {checkMo , 金币格式转换 } from './com.js'
 import shaixuan from "@/components/筛选组件.vue";
-
+import {useCounterStore} from "@/stores/useCounterStore.js";
 
 export default {
   components: {
@@ -70,17 +68,21 @@ export default {
     LevelInput,
   },
   methods: {
+    修改日销售量(event){
+      this.store.set升级数量限制(event.target.value)
+    },
     设定等级(new等级范围){
       // console.log(new等级范围)
-      this.等级范围=new等级范围
+      // this.等级范围=new等级范围
+      this.store.set升级等级限制(new等级范围)
       // console.log(this.等级范围)
       this.tt()
     },
     handleInput(event) {
       const value =金币格式转换(event.target.value,true)
-
       // 更新原始值
-      this.rawValue = value;
+      this.store.set升级金币限制(value)
+      // this.rawValue = value;
     },
     async tt(event) {
 
@@ -101,19 +103,27 @@ export default {
       // 清除非数字字符
       // const numericValue = this.rawValue.replace(/,/g, '');
       const numericValue =金币格式转换(this.rawValue)
-
       if (!numericValue) return '';
-
       // 转换为数字并添加千分位逗号
       // return Number(numericValue).toLocaleString();
       return numericValue
     },
+    rawValue(){
+      return this.store.升级金币限制
+    },
+    等级范围(){
+      return this.store.升级等级限制
+    },
+    日销售量(){
+      return this.store.升级数量限制
+    },
   },
   data() {
     return {
-      rawValue: 1000000, // 存储原始的输入值
-      等级范围:[5,6,7],
-      日销售量:200,
+      store:useCounterStore(),
+      // rawValue: 1000000, // 存储原始的输入值
+      // 等级范围:[5,6,7],
+      // 日销售量:200,
       // 最大金币消耗:1000000,
       show筛选:false,
       表头: { "名称": "名称",

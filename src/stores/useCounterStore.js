@@ -8,8 +8,10 @@ export const useCounterStore = defineStore('counter', {
         飞龙等级限制:[5,6,7],
         日历筛选:{},
         日历显示时间:[0,12,16,20],
-
-        日历使用UTC时间:true
+        日历使用UTC时间:true,
+        升级等级限制:[5,6,7],
+        升级数量限制:200,
+        升级金币限制:10**6,
     }),
     actions: {
         修改模块(模块编号) {
@@ -18,6 +20,15 @@ export const useCounterStore = defineStore('counter', {
         setLang(newLang) {
             console.log(newLang)
             this.lang = newLang;
+        },
+        set升级等级限制(r) {
+            this.升级等级限制 = r
+        },
+        set升级数量限制(r) {
+            this.升级数量限制 = r
+        },
+        set升级金币限制(r) {
+            this.升级金币限制 = r
         },
         set飞龙等级限制(等级限制) {
             this.飞龙等级限制 = 等级限制
@@ -37,7 +48,6 @@ export const useCounterStore = defineStore('counter', {
                 console.log(原始日历显示时间)
                 this.set日历显示时间( JSON.parse(原始日历显示时间))
             }else{
-
                 // 使用本地时间排序
                 // 本地时间差值
                 let 临时时间=JSON.parse(原始日历显示时间)
@@ -48,17 +58,12 @@ export const useCounterStore = defineStore('counter', {
                     if (time<0){time+=24}else if(time>=24){time-=24}
                     临时时间[i] = time
                 }
-                // console.log(临时时间)
                 // 再对列表排序
                 临时时间.sort((a, b) => a - b)
-                // console.log(临时时间)
                 // 再将其转换成UTC时间
                 this.set日历显示时间(临时时间.map((item) => item + 本地时间差值))
-
             }
-            // console.log(this.日历显示时间)
         }
-
     },
     persist: {
         enabled: true, // 启用持久化
