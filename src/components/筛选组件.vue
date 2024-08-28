@@ -25,7 +25,7 @@
 </template>
 <!--这里的大筛选逻辑错误-->
 <script >
-
+import {getJson} from "@/components/dataService.js";
 
 
 

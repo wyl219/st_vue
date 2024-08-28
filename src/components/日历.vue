@@ -32,7 +32,7 @@
 />
 </template>
 <script >
-import calendar from './calendar.js'
+// import calendar from './calendar.js'
 // import {hero} from './calendar.js'
 import rili from './子日历.vue'
 import shaixuan from './筛选组件.vue'
@@ -53,10 +53,10 @@ export default {
   }
   ,
   methods:{
-    async tt(){
-      this.数据= await calendar()
-      // console.log(this.数据)
-    },
+    // async tt(){
+    //   this.数据= await calendar()
+    //   // console.log(this.数据)
+    // },
     切换筛选(装备类型){
       // console.log(装备类型)
       // this.装备类型=装备类型
@@ -64,9 +64,9 @@ export default {
       // console.log(this.装备类型)
     }
   },
-  async created() {
-    await this.tt()
-  },
+  // async created() {
+  //   await this.tt()
+  // },
   data(){
     const store= useCounterStore()
     let useUTC=store.日历使用UTC时间

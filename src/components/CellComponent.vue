@@ -1,6 +1,9 @@
 <script >
 
 import {calendarByTime} from './calendar.js'
+import {getI18nJson} from "@/components/dataService.js";
+import {useCounterStore} from "@/stores/useCounterStore.js";
+
 export default {
 
   props:{
@@ -20,7 +23,9 @@ export default {
   },
   methods:{
     async getData(){
+      this.i18nJson=await getI18nJson()
       this.新数据= await calendarByTime(this.时间戳)
+      // console.log(this.i18nJson)
 }
   } ,
   computed:{
@@ -31,26 +36,28 @@ export default {
 
      整合数据(){
       // this.新数据
-      const cnTypeCount = {};
+      const rawTypeCount = {};
       let data=  this.新数据
       // console.log(data)
       // 遍历每个角色的数据
+      //  console.log(this.i18nJson)
       for (const key in data) {
         // console.log(key)
 
-        const cnTypes = data[key].cnType;
-
+        const rawType = data[key].rawType;
+        // console.log(rawType)
+        const replacedItems = rawType.map(item => this.i18nJson[item] || null);
         // 统计每个 cnType 出现的次数
-        cnTypes.forEach(cnType => {
-          if (cnTypeCount[cnType]) {
-            cnTypeCount[cnType]++;
+        replacedItems.forEach(cnType => {
+          if (rawTypeCount[cnType]) {
+            rawTypeCount[cnType]++;
           } else {
-            cnTypeCount[cnType] = 1;
+            rawTypeCount[cnType] = 1;
           }
         });
       }
       // 转换为数组形式
-      const result = Object.entries(cnTypeCount).map(([key, value]) => {
+      const result = Object.entries(rawTypeCount).map(([key, value]) => {
         return [ key, value ];
       });
 
@@ -59,6 +66,8 @@ export default {
     },
     筛选后数据(){
       // console.log(this.整合数据)
+
+      return this.整合数据
 
 
       if (Object.keys(this.装备类型).length<1) {
@@ -71,6 +80,8 @@ export default {
   },
   data(){
     return {
+      i18nJson:null,
+      store:useCounterStore(),
       新数据:null,
       氪金工人装备类型: {
         "重甲": false,
@@ -148,4 +159,11 @@ span .times_3{
   color: purple;
   font-size: larger;
 }
+span {
+  display: inline; /* 确保 span 行为正常 */
+  white-space: normal; /* 允许文本自动换行 */
+  word-break: normal; /* 在需要时换行 */
+  overflow-wrap: break-word; /* 处理长单词换行 */
+}
+
 </style>
