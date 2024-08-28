@@ -26,8 +26,8 @@ import ParentComponent1 from './components/飞龙计算.vue';
 import calendar from './components/日历.vue';
 import {computed} from "vue";
 import {useCounterStore} from "@/stores/useCounterStore.js";
+import {onMounted} from "vue";
 
-import {ref} from "vue";
 
 export default {
   components: {
@@ -36,9 +36,16 @@ export default {
     calendar,
   },
 
-  setup(){
 
+  setup(){
     const store = useCounterStore();
+
+    // onMounted(async()=>{
+    //   let r =await store.get日历筛选()
+    //   console.log(r)
+    //     }
+    //
+    // )
 
     let mo=computed(() => store.模块选择)
 
@@ -47,6 +54,7 @@ export default {
     const setLang=(event)=>{
       // console.log(event.target.value)
       store.setLang(event.target.value)
+      store.set日历筛选({})
       window.location.reload();
     }
 

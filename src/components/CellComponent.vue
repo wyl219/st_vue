@@ -67,7 +67,7 @@ export default {
     筛选后数据(){
       // console.log(this.整合数据)
 
-      return this.整合数据
+      // return this.整合数据
 
 
       if (Object.keys(this.装备类型).length<1) {
