@@ -57,7 +57,7 @@
           @click="handleRowClick(item,$event)"
       >
         <td  class="表序号">{{index+1}}</td>
-        <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ item[value] }}</td>
+        <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ 格式化表格内容(item,value) }}</td>
       </tr>
       </tbody>
     </table>
@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { 金币格式转换 } from './com.js'
 export default {
   props: {
     表头: Object,
@@ -153,6 +154,21 @@ export default {
     },
   },
   methods: {
+    格式化表格内容(item,value){
+
+      let r = item[value]
+      if (typeof r === 'number') {
+        // 将数字形式的r,改成千分位分隔,无小数部分的字符串
+
+        if (value !== 'goldPrice' && Math.abs(r)>10**6 ){// 市场价还是保留原逗号分隔,方便对比
+
+          r=金币格式转换(r)
+        }else {
+          r= r.toLocaleString();
+        }
+      }
+      return r
+    },
     handleRowClick(item,event) {
       // console.log(item)
       if(!item.id)return;
