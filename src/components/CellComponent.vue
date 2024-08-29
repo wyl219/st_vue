@@ -1,6 +1,6 @@
 <script >
 
-import {calendarByTime} from './calendar.js'
+import {calendarByTime,特殊事件} from './calendar.js'
 export default {
 
   props:{
@@ -12,16 +12,24 @@ export default {
     时间戳:{
       type: Number,
       default: 0,  // 默认值为空对象
+    },
+
+    特殊事件:{
+      type: Boolean,
+      default: false,
     }
   },
   async mounted() {
     await this.getData();
-
+    await this.get特殊事件();
   },
   methods:{
     async getData(){
       this.新数据= await calendarByTime(this.时间戳)
-}
+},
+    async get特殊事件(){
+      this.特殊时间信息= await 特殊事件(this.时间戳)
+    }
   } ,
   computed:{
     //  新数据(){
@@ -30,6 +38,12 @@ export default {
 
 
      整合数据(){
+
+       if(this.特殊事件){
+
+         return this.特殊时间信息
+       }
+
       // this.新数据
       const cnTypeCount = {};
       let data=  this.新数据
@@ -39,7 +53,6 @@ export default {
         // console.log(key)
 
         const cnTypes = data[key].cnType;
-
         // 统计每个 cnType 出现的次数
         cnTypes.forEach(cnType => {
           if (cnTypeCount[cnType]) {
@@ -54,12 +67,12 @@ export default {
         return [ key, value ];
       });
 
-       // console.log(result)
       return result;
     },
     筛选后数据(){
-      // console.log(this.整合数据)
-
+      if(this.特殊事件) {
+        return  this.整合数据
+      }
 
       if (Object.keys(this.装备类型).length<1) {
 
@@ -71,6 +84,7 @@ export default {
   },
   data(){
     return {
+      特殊时间信息:"",
       新数据:null,
       氪金工人装备类型: {
         "重甲": false,
@@ -120,8 +134,10 @@ export default {
     <span :class="{
           [`times_${item[1]}`]: true,
           '氪金线': 氪金工人装备类型[item[0]]
-        }">
-      {{ item[0]  }}</span>
+        }"
+          v-html="item[0]">
+
+      </span>
     <span v-if="index < 筛选后数据.length - 1">,</span>
   </span>
 
