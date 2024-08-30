@@ -79,7 +79,31 @@ function 根据品质计算真实属性(blueprint){
         blueprint["单工人经验"]*=qualityValueBuff[blueprint['tag1']]
 
 
-
+    // 价格还需要特殊处理
+    let 价格=itemData['value']
+    let tier=blueprint['tier']
+    // 获取价格的位数
+    let 价格位数=价格.toString().length
+    if (tier<3 && 价格位数<4){// 保留n-1位有效数字
+        价格=Math.round(价格/10**(价格位数-2))*10**(价格位数-2)
+    }else {
+        let 价格位数减
+        if (tier>=14) {// 保留4位有效数字,且最后一位是5或0
+             价格位数减=4
+        }else{
+             价格位数减=3
+        }
+        let t1 = 价格/10**(价格位数-价格位数减) // 这里是有小数的
+        let t2 = t1 % 5 // 这里是0-4
+        if (t2<3){
+            t1=Math.floor(t1/5)*5-5
+        }else {
+            t1=Math.floor(t1/5)*5+5
+        }
+        价格=t1*10**(价格位数-价格位数减)
+    }
+    // console.log(价格)
+    itemData['value']=价格
     return blueprint
 }
 
