@@ -63,7 +63,7 @@ import TableComponent from './表格组件.vue';
 import {checkMo , 金币格式转换 } from './com.js'
 import shaixuan from "@/components/筛选组件.vue";
 import {useCounterStore} from "@/stores/useCounterStore.js";
-import {getJson} from "./com.js";
+import {getJson} from "./dataService.js"
 
 
 export default {
@@ -95,7 +95,7 @@ export default {
       // this.rawValue = value;
     },
     async 判断金币数量(){
-      let 金币列表= await getJson('http://101.35.240.107/data/平均价格.json');
+      let 金币列表= await getJson('平均价格');
       let 金币数量=this.rawValue
       let 日销售量=this.日销售量
       let 设定平均金币数量=Math.ceil(金币数量/日销售量)

@@ -1,57 +1,52 @@
 
 // com.data_import
-export async function getJson(url) {
-    try {
-        for (let i = 0; i < 5; i++) {
-            let response = await fetch(url);
-            if (response.ok) {
-                console.log(`获取${url}成功`,Date.now())
-                return await response.json();
-            }
-        }
-    } catch (e) {
-        console.error(`获取${url}失败:`, e);
-    }
-}
+import {getJson} from "./dataService.js"
+
+
 async function getAll() {
     // console.time('items.json');
-    ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
+    ITEM_JSON = await getJson('items');
     // console.timeEnd('items.json');
     //
     // console.time('texts_en.json');
-    EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
+    EN_JSON = (await getJson("enJson",'http://101.35.240.107/data/texts_en.json'))['texts'];
     // console.timeEnd('texts_en.json');
     //
     // console.time('texts_zh.json');
-    ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
+    ZH_JSON = (await getJson("zhJson",'http://101.35.240.107/data/texts_zh.json'))['texts'];
     // console.timeEnd('texts_zh.json');
     //
     // console.time('item_type_zh.json');
-    ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
+    ITEM_TYPE_ZH = await getJson("itemTypeZh",'http://101.35.240.107/data/item_type_zh.json');
     // console.timeEnd('item_type_zh.json');
     //
     // console.time('last/all');
-    let data = await getJson('https://smartytitans.com/api/item/last/all');
+    let data = await getJson("all");
     // console.timeEnd('last/all');
     //
     // console.log(`获取${data['data'].length}个物品成功`);
     return data['data'];
 }
-// async function getAll() {
-//      ITEM_JSON = await getJson('http://101.35.240.107/data/items.json');
-//      EN_JSON = (await getJson('http://101.35.240.107/data/texts_en.json'))['texts'];
-//      ZH_JSON = (await getJson('http://101.35.240.107/data/texts_zh.json'))['texts'];
-//      ITEM_TYPE_ZH = await getJson('http://101.35.240.107/data/item_type_zh.json');
-//     let data = await getJson('https://smartytitans.com/api/item/last/all');
-//     console.log(`获取${data['data'].length}个物品成功`,Date.now())
-//     return data['data'];
-// }
 
 let ITEM_JSON
 let EN_JSON
 let ZH_JSON
 let ITEM_TYPE_ZH
 
+const qualityBuff={
+    'common':1,
+    'uncommon':1.25,
+    'flawless':1.5,
+    'epic':2,
+    'legendaryQuality':3
+}
+const qualityValueBuff={ // 价格加成,工人经验加成似乎与之相同,白绿蓝已经测试了
+    'common':1,
+    'uncommon':1.25,
+    'flawless':2,
+    'epic':3,
+    'legendary':5
+}
 // com.com
 const MUNDRA_PRICE = {
     mundrahammer: 700000,
@@ -63,6 +58,30 @@ const MUNDRA_PRICE = {
     mundrashield: 5450000,
     mundraamulet: 21000,
 };
+
+function 根据品质计算真实属性(blueprint){
+    // 传入的是白色的属性
+    console.log(blueprint)
+    let itemData=blueprint['itemData']
+    // 价格
+
+    for(let key of ['value','craftXp','xp']){
+        itemData[key] *= qualityValueBuff[blueprint['tag1']] // 价格是验证过的,商人经验验证了白绿蓝,工人经验没验证
+    }
+
+
+    for(let key of ['atk','def','hp']){
+        itemData[key] *= qualityValueBuff[blueprint['tag1']]
+    }
+
+    // 这些是getBp里面计算过的
+    blueprint["飞龙威力"]*=qualityValueBuff[blueprint['tag1']]
+        blueprint["单工人经验"]*=qualityValueBuff[blueprint['tag1']]
+
+
+
+    return blueprint
+}
 
 /// 缺少高品质对价格和属性的加成
 async function getBp(uid) {
@@ -99,6 +118,25 @@ async function getBp(uid) {
         }
     }
 
+
+
+    let 单工人经验;
+    if (itemData['worker3']) {
+        单工人经验 = Math.floor(itemData['craftXp'] / 3);
+    } else if (itemData['worker2']) {
+        单工人经验 = Math.floor(itemData['craftXp'] / 2);
+    } else {
+        单工人经验 = itemData['craftXp'];
+    }
+
+    let 里程碑价格加成 = 1;
+    for (let i = 1; i <= 5; i++) {
+        if (itemData[`upgrade${i}`] && itemData[`upgrade${i}`].includes('value')) {
+            里程碑价格加成 = parseFloat(itemData[`upgrade${i}`].split('*')[1]);
+            break;
+        }
+    }
+
     let 飞龙威力, 飞龙类别;
     if (!["符文石", "月光石", "材料", "光环", "使魔"].includes(装备类别)) {
         飞龙威力 = Math.floor(
@@ -122,22 +160,6 @@ async function getBp(uid) {
         飞龙类别 = "不可用";
     }
 
-    let 单工人经验;
-    if (itemData['worker3']) {
-        单工人经验 = Math.floor(itemData['craftXp'] / 3);
-    } else if (itemData['worker2']) {
-        单工人经验 = Math.floor(itemData['craftXp'] / 2);
-    } else {
-        单工人经验 = itemData['craftXp'];
-    }
-
-    let 里程碑价格加成 = 1;
-    for (let i = 1; i <= 5; i++) {
-        if (itemData[`upgrade${i}`] && itemData[`upgrade${i}`].includes('value')) {
-            里程碑价格加成 = parseFloat(itemData[`upgrade${i}`].split('*')[1]);
-            break;
-        }
-    }
 
     let 亲和=""
     let t_亲和=[];
@@ -250,6 +272,9 @@ async function getOrderDrawings(blueprint, hasProfit = false, hasExperience = tr
 
     const bpData = await getBp(uid);
     blueprint = { ...blueprint, ...bpData };
+
+    blueprint=根据品质计算真实属性(blueprint)
+
     blueprint['品质'] = ZH_JSON[blueprint['tag1'] + '_name'];
     blueprint['净利润'] = blueprint['itemData']['value'] - blueprint['goldPrice'];
 
