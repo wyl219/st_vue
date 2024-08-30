@@ -41,6 +41,9 @@
         >
           {{ key }}
         </th>
+        <th  class="表内容" v-if="模块==='升级'">
+        排除该订单
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -58,14 +61,13 @@
       >
         <td  class="表序号">{{index+1}}</td>
         <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ 格式化表格内容(item,value) }}</td>
+        <td  v-if="模块==='升级'" class="表内容" @click="排除(item,$event)"> <a v-show="item.id" >排除</a></td>
       </tr>
+
       </tbody>
     </table>
     <div>
-<!--      <button @click="上一页" :class="">上一页</button>-->
-<!--      <button @click="下一页">下一页</button>-->
-<!--      <span>当前为第{{ 当前页 + 1 }}页 总{{总页数}}页</span>-->
-<!--      <button @click="第一页">第一页</button>-->
+
       <button @click="上一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">上一页</button>
       <button @click="下一页" :class="{ disabled: 当前页 >= 总页数 - 1 }" :disabled="当前页 >= 总页数 - 1">下一页</button>
       <span>当前为第{{ 当前页 + 1 }}页 总{{ 总页数 }}页</span>
@@ -91,7 +93,8 @@ export default {
       type:Object,
       default: ()=>{return {}}
 
-    }
+    },
+    模块:String,
   },
   watch : {
     筛选数据(){
@@ -106,6 +109,7 @@ export default {
   ,
   data() {
     return {
+      排除ID:[],
       当前排序列: this.默认排序列,
       排序方向: 'desc',
       当前页: 0,
@@ -137,6 +141,12 @@ export default {
         r=this.排序数据.filter(item => this.筛选(item));
       }
 
+      // 这里加上排除
+      if(this.排除ID.length>0){
+        const 排除的ID列表 = this.排除ID.map(item => item.id);
+        r = r.filter(item => !排除的ID列表.includes(item.id));
+      }
+
       if(Object.keys(this.装备类型筛选).length>1){
 
         r=r.filter(item =>
@@ -144,6 +154,9 @@ export default {
           this.装备类型筛选[item['装备类别']]);
 
       }
+
+
+
       return r
 
     }
@@ -156,6 +169,7 @@ export default {
         for (let i = t.length; i < this.显示总行数; i++)
           t.push({});
       }
+      // console.log(t)
       return t;
     },
     总页数() {
@@ -165,6 +179,17 @@ export default {
     },
   },
   methods: {
+    排除(item,event){
+      //将其转换为时间戳 "2024-08-30T10:45:22.806Z"
+      // new Date(item.updatedAt);
+      // console.log()
+      this.排除ID.push({"id":item.id,"updatedAt":new Date(item.updatedAt).getTime()})
+      let 十分钟前 = Date.now() - 10 * 60 * 1000;
+      this.排除ID.filter(item => item.updatedAt> 十分钟前)
+      console.log(this.排除ID)
+    },
+
+
     格式化表格内容(item,value){
 
       let r = item[value]

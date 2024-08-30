@@ -61,7 +61,7 @@ const MUNDRA_PRICE = {
 
 function 根据品质计算真实属性(blueprint){
     // 传入的是白色的属性
-    console.log(blueprint)
+    // console.log(blueprint)
     let itemData=blueprint['itemData']
     // 价格
 
@@ -269,7 +269,7 @@ export function 金币格式转换(金币, s2i = false) {
 
 // 过滤列表函数
 function filList(listAll, tTypeFil = 'o',等级范围=null, tag1Fil = ["common", "uncommon", "flawless", "epic", "legendary"]) {
-    console.log(等级范围)
+    // console.log(等级范围)
 
     return listAll.filter(item => {
         // console.log(item, tTypeFil, tierFil, tag1Fil)
@@ -327,7 +327,7 @@ export  async function checkMo(tTypeFil = 'o', 等级范围 = null, tag1Fil = nu
 
 
 
-    console.log(`\n限制条件,等级范围:${等级范围} ;日最大出售量:${numDay} ;金币限制:${money}\n`);
+    // console.log(`\n限制条件,等级范围:${等级范围} ;日最大出售量:${numDay} ;金币限制:${money}\n`);
     // console.log(等级范围)
     // 从API中获取数据
     const listAll = await getAll();
@@ -414,7 +414,10 @@ async function getOrderDrawings_air(blueprint, 有飞龙分 = true) {
 // 加一个函数 遍历ITEM_JSON,将所有有飞龙分的项目补充进列表里.
 
 async function 补充项目 (uid){
-    const blueprint={"uid":uid,"goldPrice":null,"tag1":"common"}
+    const blueprint={"uid":uid,"goldPrice":null,"tag1":"common",
+    id:`${new Date().getTime()}${uid}`} // 加一个虚拟的id,方便排除 别的id都是整数,这里变成字符串,不知道有没有影响.
+
+    // console.log(blueprint)
     return  await getOrderDrawings_air(blueprint);
 }
 
@@ -476,7 +479,7 @@ export  async function checkAir(tTypeFil = 'o', 等级范围 = null ,tag1Fil = [
     // 排序并展示前20条数据
     const sortedDataDesc = cleanedList.sort((a, b) => b['飞龙威力'] - a['飞龙威力']);
     // showData(sortedDataDesc.slice(0, 20));
-    console.log("返回了：")
-    console.log(sortedDataDesc)
+    // console.log("返回了：")
+    // console.log(sortedDataDesc)
     return sortedDataDesc;
 }
