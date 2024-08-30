@@ -62,8 +62,14 @@
       </tbody>
     </table>
     <div>
-      <button @click="上一页">上一页</button>
-      <button @click="下一页">下一页</button>
+<!--      <button @click="上一页" :class="">上一页</button>-->
+<!--      <button @click="下一页">下一页</button>-->
+<!--      <span>当前为第{{ 当前页 + 1 }}页 总{{总页数}}页</span>-->
+<!--      <button @click="第一页">第一页</button>-->
+      <button @click="上一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">上一页</button>
+      <button @click="下一页" :class="{ disabled: 当前页 >= 总页数 - 1 }" :disabled="当前页 >= 总页数 - 1">下一页</button>
+      <span>当前为第{{ 当前页 + 1 }}页 总{{ 总页数 }}页</span>
+      <button @click="第一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">第一页</button>
     </div>
   </div>
 </template>
@@ -152,6 +158,11 @@ export default {
       }
       return t;
     },
+    总页数() {
+
+      return Math.max(1,Math.ceil(this.筛选数据.length / this.显示总行数));
+
+    },
   },
   methods: {
     格式化表格内容(item,value){
@@ -196,6 +207,10 @@ export default {
       if (this.当前页 > 0) {
         this.当前页--;
       }
+    },
+    第一页() {
+      this.当前页=0
+
     },
     下一页() {
       if ((this.当前页 + 1) * this.显示总行数 < this.排序数据.length) {
