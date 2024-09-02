@@ -126,7 +126,7 @@ export default {
         for(let key in this.物品类型){this.物品类型[key]=!this.物品类型[key]}
       }
       if(key === '氪金') {
-        console.log(event.target)
+
         if(event.target.classList.contains('disabled')){
           for(let key in this.氪金工人装备类型){
             if(this.氪金工人装备类型[key]){
