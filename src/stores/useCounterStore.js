@@ -9,7 +9,7 @@ export const useCounterStore = defineStore('counter', {
         日历筛选:{},
         升级筛选:{},
         日历显示时间:[0,12,16,20],
-        日历使用UTC时间:false,
+        日历使用UTC时间:true,
         升级等级限制:[5,6,7],
         升级数量限制:200,
         升级金币限制:10**6,

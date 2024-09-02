@@ -8,6 +8,24 @@
       </th>
     </tr>
     <table class="calendar-body">
+      <tr class="calendar-row" >
+<!--        特殊事件,满月,boss更新,闪回以及周期活动-->
+        <td class="calendar-time"> 特殊事件 </td>
+        <td v-for="date in dates" :key="date" class="calendar-cell">
+
+          <CellComponent
+
+              :特殊事件="true"
+
+              :时间戳="getTimestamp(date, 0)"
+
+          />
+        </td>
+
+      </tr>
+
+
+
       <tr v-for="hour in hours" :key="hour" class="calendar-row">
         <td class="calendar-time">{{ getLocalHour(hour) }}</td>
         <td v-for="date in dates" :key="date" class="calendar-cell">
@@ -86,11 +104,12 @@ export default {
     // const hours =store.日历显示时间
 
     // 生成从今天开始的7天日期数组
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const date = new Date(today);
-      date.setDate(today.getDate() + i);
+      date.setDate(today.getDate() + i -1);
       dates.push(date.toLocaleDateString());
     }
+    console.log(dates)
 
     return {
       store,
@@ -104,7 +123,7 @@ export default {
 <style scoped>
 .calendar {
   display: grid;
-  grid-template-columns: 100px repeat(4, 1fr);
+  grid-template-columns: 100px repeat(5, 1fr);
   grid-template-rows: auto;
   gap: 1px;
 }
