@@ -81,7 +81,7 @@ export default {
         let data1=this.noPersistStore.日历数据[selectedTime]
         for (let arr of data1){
           if(arr[0] in data){
-            data[arr[0]]+=1
+            data[arr[0]]+=arr[1]
           }else{
             data[arr[0]]=arr[1]
           }
