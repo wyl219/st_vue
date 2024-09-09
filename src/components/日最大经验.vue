@@ -25,7 +25,7 @@
     <a v-if="金币消息.length>0" @click="设定金币消耗(金币消息[1])">{{金币消息[0]}}<br></a>
     <div>
       <a @click="tt($event)">点击更新</a>
-      <a @click="show筛选=!show筛选">点击打开筛选,当前共筛选隐藏{{筛选隐藏数量}}项.</a>
+      <a @click="show筛选=!show筛选">点击打开筛选</a>
       <shaixuan v-show="show筛选"
                 :仅装备=false
                 :家具筛选=true
@@ -131,14 +131,6 @@ export default {
   },
 
   computed: {
-    筛选隐藏数量(){
-      if(Object.keys(this.装备类型).length>0){
-        let l=Object.entries(this.装备类型).filter(([key, value]) => value === false).length
-        return l
-      }else{
-        return 0
-      }
-    },
     装备类型(){
       return this.store.升级筛选
     },

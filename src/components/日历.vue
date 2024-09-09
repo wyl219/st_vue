@@ -17,7 +17,7 @@
   </label>
 </div>
   <div>
-    <a @click="show筛选=!show筛选">点击打开筛选,当前共筛选隐藏{{筛选隐藏数量}}项.</a>
+    <a @click="show筛选=!show筛选">点击打开筛选</a>
     <shaixuan v-show="show筛选"
               :仅装备=true
               :主要材料筛选=true
@@ -43,15 +43,7 @@ export default {
   computed:{
     装备类型(){
       return this.store.日历筛选
-    },
-    筛选隐藏数量(){
-      if(Object.keys(this.装备类型).length>0){
-        let l=Object.entries(this.装备类型).filter(([key, value]) => value === false).length
-        return l
-      }else{
-        return 0
-      }
-    },
+    }
     },
   watch:{
     useUTC(){
