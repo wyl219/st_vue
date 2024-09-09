@@ -21,6 +21,7 @@
 
     <a @click="tt()">点击更新</a>
     <TableComponent
+        :模块="'飞龙'"
         :表头="表头"
         :数据="数据"
         :默认排序列="默认排序列"
@@ -31,6 +32,7 @@
         @row-cancel-clicked="handleRowCancelClicked"
     />
     <TableComponent
+        :模块="'飞龙'"
         :表头="表头"
         :数据="数据"
         :默认排序列="默认排序列"
@@ -41,6 +43,7 @@
         @row-cancel-clicked="handleRowCancelClicked"
     />
     <TableComponent
+        :模块="'飞龙'"
         :表头="表头"
         :数据="数据"
         :默认排序列="默认排序列"
@@ -52,6 +55,7 @@
         @row-cancel-clicked="handleRowCancelClicked"
     />
     <TableComponent
+        :模块="'飞龙'"
         :表头="表头"
         :数据="数据"
         :默认排序列="默认排序列"
@@ -100,7 +104,7 @@ export default {
     async tt() {
 
       this.数据 = []
-      console.log(this.等级范围)
+      // console.log(this.等级范围)
       this.数据 = await checkAir(undefined, this.等级范围);
 
     },
