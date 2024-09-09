@@ -2,7 +2,7 @@
 
 import {calendarByTime,特殊事件} from './calendar.js'
 import {getI18nJson} from "@/components/dataService.js";
-import {useCounterStore} from "@/stores/useCounterStore.js";
+import {useCounterStore,useNoPersistCounterStore} from "@/stores/useCounterStore.js";
 export default {
 
   props:{
@@ -79,11 +79,19 @@ export default {
         return  this.整合数据
       }
 
+      let 筛选后数据
+
       if (Object.keys(this.装备类型).length<1) {
+        筛选后数据= this.整合数据
+        }else {
 
-        return this.整合数据}
-
-      const 筛选后数据 = this.整合数据.filter(item => {return this.装备类型[item[0]]})
+        筛选后数据 = this.整合数据.filter(item => {
+          return this.装备类型[item[0]]
+        })
+      }
+      // console.log(筛选后数据)
+      this.noPersistStore.增加日历数据(this.时间戳,筛选后数据)
+      // console.log(this.noPersistStore.日历数据)
       return 筛选后数据
     }
   },
@@ -92,6 +100,7 @@ export default {
       特殊时间信息:"",
       i18nJson:null,
       store:useCounterStore(),
+      noPersistStore:useNoPersistCounterStore(),
       新数据:null,
       氪金工人装备类型: {
         "重甲": false,

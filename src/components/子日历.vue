@@ -28,7 +28,10 @@
 
       <tr v-for="hour in hours" :key="hour" class="calendar-row">
         <td class="calendar-time">{{ getLocalHour(hour) }}</td>
-        <td v-for="date in dates" :key="date" class="calendar-cell">
+        <td v-for="date in dates" :key="date" class="calendar-cell"
+        :class=" {'金色外框' : noPersistStore.是否已选中(getTimestamp(date, hour))}"
+            @click="选中时间戳(getTimestamp(date, hour))"
+        >
 
           <CellComponent
 
@@ -44,7 +47,7 @@
 
 <script>
 import CellComponent from './CellComponent.vue';
-import {useCounterStore} from "@/stores/useCounterStore.js"; // 假设每个单元格的组件叫做CellComponent
+import {useCounterStore,useNoPersistCounterStore} from "@/stores/useCounterStore.js"; // 假设每个单元格的组件叫做CellComponent
 
 export default {
   components: { CellComponent },
@@ -59,11 +62,20 @@ export default {
     }
   },
   computed:{
+
+
+
+
     hours(){
       return  this.store.日历显示时间
     }
   },
   methods:{
+    选中时间戳(时间戳){
+      this.noPersistStore.修改选中时间戳(时间戳)
+    },
+
+
     // 根据UTC小时数,生成本地小时数
     getLocalHour(utcHour) {
       const offset = new Date().getTimezoneOffset()/60;
@@ -97,6 +109,8 @@ export default {
     const today = new Date();
     const dates = [];
     const store= useCounterStore()
+
+    const noPersistStore = useNoPersistCounterStore()
     // const hours = Array.from({length: 24}, (_, i) => i);
 
     // const hours = [-8,-4,0,12]
@@ -114,6 +128,7 @@ export default {
     return {
       store,
       dates,
+      noPersistStore
       // hours,
     };
   },
@@ -166,5 +181,10 @@ export default {
   border-bottom: 1px solid #ccc;
   border-right: 1px solid #ccc;
   width: 200px;
+}
+
+.金色外框 {
+  border: 2px solid gold; /* 例如，用金色边框 */
+  /* 你可以添加其他样式，如背景色、阴影等 */
 }
 </style>
