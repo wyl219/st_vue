@@ -25,7 +25,7 @@
 </template>
 <!--这里的大筛选逻辑错误-->
 <script >
-
+import {getI18nItemTypeData} from "@/components/dataService.js";
 
 
 
@@ -54,54 +54,35 @@ export default {
       default:()=>false,
     },
   },
+
+
+
   computed:{
 物品类型(){
 
   if (Object.keys(this.筛选字典).length>0){
     return this.筛选字典
   }else{
-    return{
-      "重甲": true,
-      "轻甲": true,
-      "中甲": true,
-      "重鞋": true,
-      "轻鞋": true,
-      "铁护手": true,
-      "护腕": true,
-      "头盔": true,
-      "法师帽": true,
-      "盗贼帽": true,
-      "草药": true,
-      "药水": true,
-      "法术": true,
-      "斧": true,
-      "弓": true,
-      "弩": true,
-      "匕首": true,
-      "火枪": true,
-      "锤": true,
-      "矛": true,
-      "剑": true,
-      "法杖": true,
-      "魔杖": true,
-      "护身符": true,
-      "斗篷": true,
-      "使魔": true,
-      "戒指": true,
-      "盾牌": true,
-      "符文石": true,
-      "附魔": true,
-      "月光石": true,
-      "光环": true,
-      "餐食": true,
-      "甜点": true,
-      "材料": true,
-      "乐器": true
-    }
+    return this.r物品类型
   }
 }
   },
+  async mounted(){
+    await this.getTypeJson()
+  },
   methods: {
+
+    async getTypeJson(){
+      let t =await getI18nItemTypeData()
+      this.r物品类型=t['物品类型']
+      this.家具类别筛选=t['家具类别筛选']
+      this.装备类型=t['装备类型']
+      this.主要材料装备类型=t['主要材料装备类型']
+      this.氪金工人装备类型=t['氪金工人装备类型']
+
+    },
+
+
     big筛选(values,event){
 
       if(event.target.classList.contains('disabled')){
@@ -118,6 +99,7 @@ export default {
 
      if(key === '全选'){
         for(let key in this.物品类型){this.物品类型[key]=true}
+       console.log(this.物品类型)
       }
       if(key === '全不选'){
         for(let key in this.物品类型){this.物品类型[key]=false}
@@ -164,212 +146,17 @@ export default {
 
   data() {
     return {
-      // 物品类型: {
-      //   "重甲": true,
-      //   "轻甲": true,
-      //   "中甲": true,
-      //   "重鞋": true,
-      //   "轻鞋": true,
-      //   "铁护手": true,
-      //   "护腕": true,
-      //   "头盔": true,
-      //   "法师帽": true,
-      //   "盗贼帽": true,
-      //   "草药": true,
-      //   "药水": true,
-      //   "法术": true,
-      //   "斧": true,
-      //   "弓": true,
-      //   "弩": true,
-      //   "匕首": true,
-      //   "火枪": true,
-      //   "锤": true,
-      //   "矛": true,
-      //   "剑": true,
-      //   "法杖": true,
-      //   "魔杖": true,
-      //   "护身符": true,
-      //   "斗篷": true,
-      //   "使魔": true,
-      //   "戒指": true,
-      //   "盾牌": true,
-      //   "符文石": true,
-      //   "附魔": true,
-      //   "月光石": true,
-      //   "光环": true,
-      //   "餐食": true,
-      //   "甜点": true,
-      //   "材料": true,
-      //   "乐器": true
-      // },
-      装备类型: {
-        "重甲": true,
-        "轻甲": true,
-        "中甲": true,
-        "重鞋": true,
-        "轻鞋": true,
-        "铁护手": true,
-        "护腕": true,
-        "头盔": true,
-        "法师帽": true,
-        "盗贼帽": true,
-        "草药": true,
-        "药水": true,
-        "法术": true,
-        "斧": true,
-        "弓": true,
-        "弩": true,
-        "匕首": true,
-        "火枪": true,
-        "锤": true,
-        "矛": true,
-        "剑": true,
-        "法杖": true,
-        "魔杖": true,
-        "护身符": true,
-        "斗篷": true,
-        "使魔": true,
-        "戒指": true,
-        "盾牌": true,
-        "光环": true,
-        "餐食": true,
-        "甜点": true,
-        "乐器": true
-      },
-      家具类别筛选: {
-        "护甲架": {
-          "重甲": true,
-          "轻甲": true,
-          "中甲": true,
-          "重鞋": true,
-          "轻鞋": true,
-          "铁护手": true,
-          "护腕": true,
-          "头盔": true,
-          "法师帽": true,
-          "盗贼帽": true,
-          "斗篷": true
-        },
-        "垂直货架": {
-          "斧": true,
-          "锤": true,
-          "矛": true,
-          "剑": true,
-          "法杖": true
-        },
-        "货架": {
-          "草药": true,
-          "药水": true,
-          "法术": true,
-          "护身符": true,
-          "使魔": true,
-          "戒指": true,
-          "光环": true,
-          "餐食": true,
-          "甜点": true
-        },
-        "桌子": {
-          "弓": true,
-          "弩": true,
-          "匕首": true,
-          "火枪": true,
-          "魔杖": true,
-          "乐器": true
-        }
-      },
-      氪金工人装备类型: {
-        "重甲": false,
-        "轻甲": false,
-        "中甲": false,
-        "重鞋": false,
-        "轻鞋": false,
-        "铁护手": false,
-        "护腕": false,
-        "头盔": false,
-        "法师帽": false,
-        "盗贼帽": false,
-        "草药": false,
-        "药水": false,
-        "法术": false,
-        "斧": false,
-        "弓": false,
-        "弩": false,
-        "匕首": false,
-        "火枪": true,
-        "锤": false,
-        "矛": false,
-        "剑": false,
-        "法杖": false,
-        "魔杖": true,
-        "护身符": false,
-        "斗篷": true,
-        "使魔": true,
-        "戒指": false,
-        "盾牌": false,
-        "光环": true,
-        "餐食": false,
-        "甜点": true,
-        "乐器": true
-      },
-      主要材料装备类型: {
-        "铁法": {
-          "光环": true
-        },
-        "铁珠": {
-          "剑": true,
-          "火枪": true,
-          "重甲": true,
-          "重鞋": true,
-          "铁护手": true,
-          "头盔": true,
-          "护身符": true,
-          "戒指": true
-        },
-        "铁": {
-          "匕首": true
-        },
-        "木法": {
-          "锤": true,
-          "法杖": true
-        },
-        "木珠": {
-          "斧": true,
-          "矛": true,
-          "弓": true,
-          "魔杖": true,
-          "弩": true,
-          "盾牌": true
-        },
-        "草法": {
-          "乐器": true,
-          "草药": true,
-          "药水": true,
-          "法术": true,
-          "餐食": true,
-          "甜点": true
-        },
-        "草珠": {
-          "使魔": true
-        },
-        "皮法": {
-          "中甲": true,
-          "轻甲": true,
-          "轻鞋": true,
-          "护腕": true,
-          "法师帽": true,
-          "盗贼帽": true
-        },
-        "皮珠": {
-          "斗篷": true
-        }
-      }
+      r物品类型: {},
+      装备类型: {},
+      家具类别筛选:{},
+      氪金工人装备类型: {},
+      主要材料装备类型: {},
 
 
     }
   },
 
-  mounted() {
-  }
+
 }
 
 

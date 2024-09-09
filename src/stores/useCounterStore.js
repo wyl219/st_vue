@@ -1,11 +1,52 @@
 // src/stores/useCounterStore.js
 import { defineStore } from 'pinia';
+import {getI18nJson} from "@/components/dataService.js";
+const raw物品类型= {
+    "item_type_armorheavy": true,
+    "item_type_armorlight": true,
+    "item_type_armormedium": true,
+    "item_type_boots": true,
+    "item_type_feet": true,
+    "item_type_gauntlets": true,
+    "item_type_bracers": true,
+    "item_type_helmet": true,
+    "item_type_hat": true,
+    "item_type_roguehat": true,
+    "item_type_herb": true,
+    "item_type_potion": true,
+    "item_type_scrolls": true,
+    "item_type_axe": true,
+    "item_type_bow": true,
+    "item_type_crossbow": true,
+    "item_type_dagger": true,
+    "item_type_gun": true,
+    "item_type_mace": true,
+    "item_type_spear": true,
+    "item_type_sword": true,
+    "item_type_staff": true,
+    "item_type_wand": true,
+    "item_type_amulet": true,
+    "item_type_cloak": true,
+    "item_type_familiar": true,
+    "item_type_ring": true,
+    "item_type_shield": true,
+    "item_type_rune": true,
+    "item_type_tag": true,
+    "item_type_moonstone": true,
+    "item_type_aurastone": true,
+    "item_type_meal": true,
+    "item_type_dessert": true,
+    "item_type_component": true,
+    "item_type_instrument": true
+}
+const rawDict={}
 
 export const useCounterStore = defineStore('counter', {
     state: () => ({
         模块选择: 1, // 初始值为1
         lang:"zh",
         飞龙等级限制:[5,6,7],
+        raw日历筛选:{},
         日历筛选:{},
         升级筛选:{},
         日历显示时间:[0,12,16,20],
@@ -13,8 +54,70 @@ export const useCounterStore = defineStore('counter', {
         升级等级限制:[5,6,7],
         升级数量限制:200,
         升级金币限制:10**6,
+
     }),
+
     actions: {
+        // async get日历筛选(){
+        //     if (Object.keys(this.raw日历筛选).length===0){
+        //         return {}
+        //     }else{
+        //         this.日历筛选= await this.翻译筛选(this.raw日历筛选,"get")
+        //     }
+        // },
+        async set日历筛选(日历筛选) {
+            this.raw日历筛选 = await this.翻译筛选(日历筛选,"set")
+            this.日历筛选= await this.翻译筛选(this.raw日历筛选,"get")
+            // this.日历筛选=日历筛选
+        },
+
+        async 翻译筛选(dct,flag){
+            let r={}
+            const i18nJson= await getI18nJson()
+            // console.log(i18nJson)
+            // console.log(dct)
+            // console.log(flag)
+            if (flag==='get'){ //
+                for (let key of Object.keys(dct)){
+                    // console.log(key)
+                    // console.log( i18nJson[key])
+                    if (key.includes("_")){
+                        let newKey=i18nJson[key]
+                        if (newKey){r[newKey]=dct[key]}
+
+                    }else {
+
+                       r[key]=dct[key]
+
+                    }
+                }
+            }else if (flag==='set'){
+                for (let key of Object.keys(dct)){
+                    // console.log(key)
+                    // console.log( Object.keys(i18nJson).find(key1 => i18nJson[key1] === key))
+                    if (key.includes("_")){
+                        r[key]=dct[key]
+                    }else {
+                        let newKey=Object.keys(i18nJson).find(key1 => i18nJson[key1] === key)
+                        if (newKey){if (newKey){r[newKey]=dct[key]}}
+
+                    }
+                }
+
+            }else {
+                console.log("翻译筛选flag错误")
+                r={}
+            }
+            console.log(flag)
+            console.log(r)
+            return r
+
+        },
+
+
+
+
+
         修改模块(模块编号) {
             this.模块选择 = 模块编号; // 增加计数器
         },
@@ -34,10 +137,10 @@ export const useCounterStore = defineStore('counter', {
         set飞龙等级限制(等级限制) {
             this.飞龙等级限制 = 等级限制
         },
-        set日历筛选(日历筛选) {
-            this.日历筛选 = 日历筛选},
+
         set升级筛选(升级筛选) {
             this.升级筛选 = 升级筛选},
+
         set日历显示时间(日历显示时间) {
             this.日历显示时间 = 日历显示时间
         },
