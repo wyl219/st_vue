@@ -12,7 +12,7 @@
     <span style="color:purple;font-size: larger" >紫色大号字</span>表示同时有三个勇士需求.
   </p>
   <p>注意:这里<span style="color: red;font-size:large ">保存了你之前设定的筛选</span>,如果有部分装备类型不显示,请在筛选中点击"全选" </p>
-
+<p> 金色边框表示你选中该时间用于汇总,深粉色底色表示该时间在当前时间前后4小时内.浅粉色底色表示在8小时内.</p>
 
   <label> <input type="radio" :value="true" v-model="useUTC" > 每天从0点开始
     <input type="radio" :value="false" v-model="useUTC"> 每天从-4点(前一天20点)
@@ -31,7 +31,7 @@
   </label>
 </div>
   <div>
-    <a @click="show筛选=!show筛选">点击打开筛选</a>
+    <a @click="show筛选=!show筛选">点击打开筛选,当前共筛选隐藏{{筛选隐藏数量}}项.</a>
     <shaixuan v-show="show筛选"
               :仅装备=true
               :主要材料筛选=true
@@ -60,7 +60,14 @@ export default {
       return this.store.日历筛选
     },
 
-
+    筛选隐藏数量(){
+      if(Object.keys(this.装备类型).length>0){
+        let l=Object.entries(this.装备类型).filter(([key, value]) => value === false).length
+        return l
+      }else{
+        return 0
+      }
+    },
     汇总数据(){
 
 
@@ -93,6 +100,10 @@ export default {
 
       // 使用 Object.entries 将对象转换为 [key, value] 数组，并按 value 进行排序
       let sortedArray = Object.entries(data).sort((a, b) => b[1] - a[1]);
+
+      // 在列表前面加上时间段长度
+
+      sortedArray.unshift(["最大跨度",  `${(Math.max(...选中的时间戳数组) - Math.min(...选中的时间戳数组) )/3600/1000}小时` ]);
 
       return sortedArray; // 返回排序后的数组
 

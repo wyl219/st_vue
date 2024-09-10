@@ -95,8 +95,8 @@ export const useCounterStore = defineStore('counter', {
         飞龙等级限制:[5,6,7],
         // raw日历筛选:{},
         日历筛选:{},
-        // 升级筛选:{},
-        日历显示时间:[0,12,16,20],
+        升级筛选:{},
+        日历显示时间:[-8,-4,0,12],
         日历使用时间:true,
         升级等级限制:[5,6,7],
         升级数量限制:200,
@@ -190,8 +190,8 @@ export const useCounterStore = defineStore('counter', {
             this.飞龙等级限制 = 等级限制
         },
 
-        // set升级筛选(升级筛选) {
-        //     this.升级筛选 = 升级筛选},
+        set升级筛选(升级筛选) {
+            this.升级筛选 = 升级筛选},
 
         set日历显示时间(日历显示时间) {
             this.日历显示时间 = 日历显示时间

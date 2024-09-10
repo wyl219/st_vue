@@ -186,7 +186,7 @@ export default {
       this.排除ID.push({"id":item.id,"updatedAt":new Date(item.updatedAt).getTime()})
       let 十分钟前 = Date.now() - 10 * 60 * 1000;
       this.排除ID.filter(item => item.updatedAt> 十分钟前)
-      console.log(this.排除ID)
+      // console.log(this.排除ID)
     },
 
 

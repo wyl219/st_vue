@@ -29,7 +29,11 @@
       <tr v-for="hour in hours" :key="hour" class="calendar-row">
         <td class="calendar-time">{{ getLocalHour(hour) }}</td>
         <td v-for="date in dates" :key="date" class="calendar-cell"
-        :class=" {'金色外框' : noPersistStore.是否已选中(getTimestamp(date, hour))}"
+        :class=" {'金色外框' : noPersistStore.是否已选中(getTimestamp(date, hour)),
+
+                  '淡粉色底色': Math.abs(判断相近时间(getTimestamp(date, hour))) <8,
+                  '粉色底色': Math.abs(判断相近时间(getTimestamp(date, hour))) <4,
+        }"
             @click="选中时间戳(getTimestamp(date, hour))"
         >
 
@@ -89,10 +93,27 @@ export default {
         localHour-=24
         sAdd="(+1D)"
       }
-      let s=`${localHour}:00${sAdd}\n(UTC${utcHour}:00)`
+      // let s=`${localHour}:00${sAdd}\n(UTC${utcHour}:00)`
+      let s=`${localHour}:00${sAdd}`
       return s
 
     },
+    判断相近时间(时间戳){
+      //获取当前时间戳
+      const timeOffset= 4 // 时间相差4小时内
+      const now =  Date.now()
+
+      return (时间戳-now)/3600/1000
+
+      // if( 时间戳 < now+ timeOffset*3600*1000 && 时间戳 > now- timeOffset*3600*1000){
+      //   return true
+      // }else{
+      //   return false
+      // }
+
+    }
+
+    ,
     // 生成对应单元格的时间戳
     getTimestamp(date, hour) {
 
@@ -186,5 +207,12 @@ export default {
 .金色外框 {
   border: 2px solid gold; /* 例如，用金色边框 */
   /* 你可以添加其他样式，如背景色、阴影等 */
+}
+
+.淡粉色底色 {
+  background-color: #ffdee5;
+}
+.粉色底色 {
+  background-color: #f8a7b5;
 }
 </style>
