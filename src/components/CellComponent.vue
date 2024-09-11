@@ -50,13 +50,21 @@ export default {
       // this.新数据
       const rawTypeCount = {};
       let data=  this.新数据
+
+
+
+
       // console.log(data)
       // 遍历每个角色的数据
+       let 原始数据=""
       for (const key in data) {
         // console.log(key)
 
         const rawType = data[key].rawType;// console.log(rawType)
         const replacedItems = rawType.map(item => this.i18nJson[item] || null);
+        原始数据+= this.i18nJson[key+"_name"] + ':' + replacedItems.join(' ') + '\n';
+        // console.log(this.原始数据)
+        // console.log(replacedItems)
         // 统计每个 cnType 出现的次数
         replacedItems.forEach(cnType => {
           if (rawTypeCount[cnType]) {
@@ -66,12 +74,14 @@ export default {
           }
         });
       }
+       this.原始数据=原始数据
+       console.log(this.原始数据)
       // 转换为数组形式
       const result = Object.entries(rawTypeCount).map(([key, value]) => {
         return [ key, value ];
       });
 
-       // console.log(result)
+
       return result;
     },
     筛选后数据(){
@@ -97,6 +107,7 @@ export default {
   },
   data(){
     return {
+      原始数据:null,
       特殊时间信息:"",
       i18nJson:null,
       store:useCounterStore(),
@@ -131,7 +142,7 @@ export default {
         "使魔": true,
         "戒指": false,
         "盾牌": false,
-        "光环": true,
+        "光环之歌": true,
         "餐食": false,
         "甜点": true,
         "乐器": true
@@ -143,7 +154,7 @@ export default {
 </script>
 
 <template>
-<div>
+<div :title="this.原始数据">
 
 
   <span v-for="(item, index) in 筛选后数据" :key="index">

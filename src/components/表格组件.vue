@@ -28,7 +28,14 @@
 
 <template>
   <div>
-    <h3 v-if="筛选">{{筛选[1]}}</h3>
+<!--    <h3 v-if="筛选">{{筛选[1]}}</h3>-->
+    <div>
+      <button @click="第一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">第一页</button>
+      <button @click="上一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">上一页</button>
+
+      <span>当前为第{{ 当前页 + 1 }}页 总{{ 总页数 }}页</span><span>,当前条件下总计{{排序数据.length}}项</span>
+      <button @click="下一页" :class="{ disabled: 当前页 >= 总页数 - 1 }" :disabled="当前页 >= 总页数 - 1">下一页</button>
+    </div>
     <table>
       <thead>
       <tr>
@@ -59,20 +66,14 @@
 
           @click="handleRowClick(item,$event)"
       >
-        <td  class="表序号">{{index+1}}</td>
+        <td  class="表序号">{{获取序号(item)+1}}</td>
         <td v-for="(value, key) in 表头" :key="key"  class="表内容">{{ 格式化表格内容(item,value) }}</td>
         <td  v-if="模块==='升级'" class="表内容" @click="排除(item,$event)"> <a v-show="item.id" >排除</a></td>
       </tr>
 
       </tbody>
     </table>
-    <div>
 
-      <button @click="上一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">上一页</button>
-      <button @click="下一页" :class="{ disabled: 当前页 >= 总页数 - 1 }" :disabled="当前页 >= 总页数 - 1">下一页</button>
-      <span>当前为第{{ 当前页 + 1 }}页 总{{ 总页数 }}页</span>
-      <button @click="第一页" :class="{ disabled: 当前页 === 0 }" :disabled="当前页 === 0">第一页</button>
-    </div>
   </div>
 </template>
 
@@ -119,7 +120,7 @@ export default {
   },
   computed: {
     排序数据() {
-      const sortedData = this.数据.slice().sort((a, b) => {
+      let sortedData = this.数据.slice().sort((a, b) => {
         if (!this.排序方向){
           this.排序方向 = this.默认排序方向;
         }
@@ -133,19 +134,26 @@ export default {
 
         }
       });
-      return sortedData;
-    },
-    筛选数据(){
-      let r=this.排序数据;
-      if( this.筛选){
-        r=this.排序数据.filter(item => this.筛选(item));
-      }
 
       // 这里加上排除
       if(this.排除ID.length>0){
         const 排除的ID列表 = this.排除ID.map(item => item.id);
-        r = r.filter(item => !排除的ID列表.includes(item.id));
+        sortedData = sortedData.filter(item => !排除的ID列表.includes(item.id));
       }
+      if( this.筛选){
+        sortedData=sortedData.filter(item => this.筛选(item));
+      }
+
+      return sortedData;
+    },
+    筛选数据(){
+      let r=this.排序数据;
+
+      // // 这里加上排除
+      // if(this.排除ID.length>0){
+      //   const 排除的ID列表 = this.排除ID.map(item => item.id);
+      //   r = r.filter(item => !排除的ID列表.includes(item.id));
+      // }
 
       if(Object.keys(this.装备类型筛选).length>1){
 
@@ -155,7 +163,7 @@ export default {
 
       }
 
-
+      // console.log(r)
 
       return r
 
@@ -179,6 +187,14 @@ export default {
     },
   },
   methods: {
+
+    获取序号(obj){
+
+      let r
+      r=this.排序数据.findIndex(item => item.id === obj.id)
+      return r
+    }
+    ,
     排除(item,event){
       //将其转换为时间戳 "2024-08-30T10:45:22.806Z"
       // new Date(item.updatedAt);
