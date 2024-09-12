@@ -17,7 +17,7 @@ async function getAll() {
     // console.timeEnd('texts_zh.json');
     //
     // console.time('item_type_zh.json');
-    ITEM_TYPE_ZH = await getJson("itemTypeZh",'http://101.35.240.107/data/item_type_zh.json');
+    itemType = await getJson("itemType");
     // console.timeEnd('item_type_zh.json');
     //
     // console.time('last/all');
@@ -31,7 +31,7 @@ async function getAll() {
 let ITEM_JSON
 let EN_JSON
 let ZH_JSON
-let ITEM_TYPE_ZH
+let itemType
 
 const qualityBuff={
     'common':1,
@@ -120,7 +120,8 @@ async function getBp(uid) {
         名称 = '未找到';
     }
 
-    const 装备类别 = ITEM_TYPE_ZH[itemData['type']];
+    const 装备类别 = ZH_JSON[itemType[itemData['type']]];
+
 
     if (itemData['lTag3'] || itemData['lTag2']) {
         const a = itemData['lTag3'] || itemData['lTag2'];
