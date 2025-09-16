@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <div>
-<!--      <select  :value="语言" @change="setLang">-->
-<!--        <option value="zh">中文</option>-->
-<!--        <option value="en">English</option>-->
-<!--        <option value="de">Deutsch</option>-->
-<!--      </select>-->
-      <a v-if="this.mo!==1" @click="()=>修改模块(1)">切换升级小熊手</a>
+<!--      <select  :value="语言" @change="setLang">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>-->
       <a v-if="this.mo!==2" @click="()=>修改模块(2)">切换飞龙小熊手</a>
       <a v-if="this.mo!==3" @click="()=>修改模块(3)">切换勇士小熊手</a>
       作者:布兰妮和铁扇公主#94360@撕裂者
@@ -14,7 +13,6 @@
 
     <br>
     <div>
-      <ParentComponent v-if="mo===1" />
       <ParentComponent1 v-if="mo===2" />
       <calendar v-if="mo===3" />
     </div>
@@ -22,7 +20,6 @@
 </template>
 
 <script>
-import ParentComponent from './components/日最大经验.vue';
 import ParentComponent1 from './components/飞龙计算.vue';
 import calendar from './components/日历.vue';
 import {computed} from "vue";
@@ -32,7 +29,6 @@ import {onMounted} from "vue";
 
 export default {
   components: {
-    ParentComponent,
     ParentComponent1,
     calendar,
   },

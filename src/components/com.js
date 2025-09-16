@@ -9,11 +9,11 @@ async function getAll() {
     // console.timeEnd('items.json');
     //
     // console.time('texts_en.json');
-    EN_JSON = (await getJson("enJson",'http://101.35.240.107/data/texts_en.json'))['texts'];
+    EN_JSON = (await getJson('enJson'))['texts'];
     // console.timeEnd('texts_en.json');
     //
     // console.time('texts_zh.json');
-    ZH_JSON = (await getJson("zhJson",'http://101.35.240.107/data/texts_zh.json'))['texts'];
+    ZH_JSON = (await getJson('zhJson'))['texts'];
     // console.timeEnd('texts_zh.json');
     //
     // console.time('item_type_zh.json');
@@ -209,6 +209,7 @@ async function getBp(uid) {
     }else  {
         自带附魔=false
     }
+
 
 
 

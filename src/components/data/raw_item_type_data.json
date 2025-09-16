@@ -1,0 +1,201 @@
+{
+    "物品类型": {
+        "item_type_armorheavy": true,
+        "item_type_armorlight": true,
+        "item_type_armormedium": true,
+        "item_type_boots": true,
+        "item_type_feet": true,
+        "item_type_gauntlets": true,
+        "item_type_bracers": true,
+        "item_type_helmet": true,
+        "item_type_hat": true,
+        "item_type_roguehat": true,
+        "item_type_herb": true,
+        "item_type_potion": true,
+        "item_type_scrolls": true,
+        "item_type_axe": true,
+        "item_type_bow": true,
+        "item_type_crossbow": true,
+        "item_type_dagger": true,
+        "item_type_gun": true,
+        "item_type_mace": true,
+        "item_type_spear": true,
+        "item_type_sword": true,
+        "item_type_staff": true,
+        "item_type_wand": true,
+        "item_type_amulet": true,
+        "item_type_cloak": true,
+        "item_type_familiar": true,
+        "item_type_ring": true,
+        "item_type_shield": true,
+        "item_type_rune": true,
+        "item_type_tag": true,
+        "item_type_moonstone": true,
+        "item_type_aurastone": true,
+        "item_type_meal": true,
+        "item_type_dessert": true,
+        "item_type_component": true,
+        "item_type_instrument": true
+    },
+    "装备类型": {
+        "item_type_armorheavy": true,
+        "item_type_armorlight": true,
+        "item_type_armormedium": true,
+        "item_type_boots": true,
+        "item_type_feet": true,
+        "item_type_gauntlets": true,
+        "item_type_bracers": true,
+        "item_type_helmet": true,
+        "item_type_hat": true,
+        "item_type_roguehat": true,
+        "item_type_herb": true,
+        "item_type_potion": true,
+        "item_type_scrolls": true,
+        "item_type_axe": true,
+        "item_type_bow": true,
+        "item_type_crossbow": true,
+        "item_type_dagger": true,
+        "item_type_gun": true,
+        "item_type_mace": true,
+        "item_type_spear": true,
+        "item_type_sword": true,
+        "item_type_staff": true,
+        "item_type_wand": true,
+        "item_type_amulet": true,
+        "item_type_cloak": true,
+        "item_type_familiar": true,
+        "item_type_ring": true,
+        "item_type_shield": true,
+        "item_type_aurastone": true,
+        "item_type_meal": true,
+        "item_type_dessert": true,
+        "item_type_instrument": true
+    },
+    "家具类别筛选": {
+        "mannequin_name": {
+            "item_type_armorheavy": true,
+            "item_type_armorlight": true,
+            "item_type_armormedium": true,
+            "item_type_boots": true,
+            "item_type_feet": true,
+            "item_type_gauntlets": true,
+            "item_type_bracers": true,
+            "item_type_helmet": true,
+            "item_type_hat": true,
+            "item_type_roguehat": true,
+            "item_type_cloak": true
+        },
+        "vertrack_name": {
+            "item_type_axe": true,
+            "item_type_mace": true,
+            "item_type_spear": true,
+            "item_type_sword": true,
+            "item_type_staff": true
+        },
+        "shelves_name": {
+            "item_type_herb": true,
+            "item_type_potion": true,
+            "item_type_scrolls": true,
+            "item_type_amulet": true,
+            "item_type_familiar": true,
+            "item_type_ring": true,
+            "item_type_aurastone": true,
+            "item_type_meal": true,
+            "item_type_dessert": true
+        },
+        "table_name": {
+            "item_type_bow": true,
+            "item_type_crossbow": true,
+            "item_type_dagger": true,
+            "item_type_gun": true,
+            "item_type_wand": true,
+            "item_type_instrument": true
+        }
+    },
+    "氪金工人装备类型": {
+        "item_type_armorheavy": false,
+        "item_type_armorlight": false,
+        "item_type_armormedium": false,
+        "item_type_boots": false,
+        "item_type_feet": false,
+        "item_type_gauntlets": false,
+        "item_type_bracers": false,
+        "item_type_helmet": false,
+        "item_type_hat": false,
+        "item_type_roguehat": false,
+        "item_type_herb": false,
+        "item_type_potion": false,
+        "item_type_scrolls": false,
+        "item_type_axe": false,
+        "item_type_bow": false,
+        "item_type_crossbow": false,
+        "item_type_dagger": false,
+        "item_type_gun": true,
+        "item_type_mace": false,
+        "item_type_spear": false,
+        "item_type_sword": false,
+        "item_type_staff": false,
+        "item_type_wand": true,
+        "item_type_amulet": false,
+        "item_type_cloak": true,
+        "item_type_familiar": true,
+        "item_type_ring": false,
+        "item_type_shield": false,
+        "item_type_aurastone": true,
+        "item_type_meal": false,
+        "item_type_dessert": true,
+        "item_type_instrument": true
+    },
+    "主要材料装备类型": {
+        "铁法": {
+            "item_type_aurastone": true
+        },
+        "铁珠": {
+            "item_type_sword": true,
+            "item_type_gun": true,
+            "item_type_armorheavy": true,
+            "item_type_boots": true,
+            "item_type_gauntlets": true,
+            "item_type_helmet": true,
+            "item_type_amulet": true,
+            "item_type_ring": true
+        },
+        "铁": {
+            "item_type_dagger": true
+        },
+        "木法": {
+            "item_type_mace": true,
+            "item_type_staff": true
+        },
+        "木珠": {
+            "item_type_axe": true,
+            "item_type_spear": true,
+            "item_type_bow": true,
+            "item_type_wand": true,
+            "item_type_crossbow": true,
+            "item_type_shield": true
+        },
+        "草法": {
+            "item_type_instrument": true,
+            "item_type_herb": true,
+            "item_type_potion": true,
+            "item_type_scrolls": true,
+            "item_type_meal": true,
+            "item_type_dessert": true
+        },
+        "草珠": {
+            "item_type_familiar": true
+        },
+        "皮法": {
+            "item_type_armormedium": true,
+            "item_type_armorlight": true,
+            "item_type_feet": true,
+            "item_type_bracers": true,
+            "item_type_hat": true,
+            "item_type_roguehat": true
+        },
+        "皮珠": {
+            "item_type_cloak": true
+        }
+    }
+}

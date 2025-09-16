@@ -2,15 +2,19 @@ import {useCounterStore} from "@/stores/useCounterStore.js";
 
 const cache = {};
 const URL_DICT = {
-    "heroes": "http://101.35.240.107/data/heroes.json",
-    "items": "http://101.35.240.107/data/items.json",
-    "itemType": "http://101.35.240.107/data/item_type.json",
-    "i18nJson": "http://101.35.240.107/data/texts_zh.json",
-    "平均价格": "http://101.35.240.107/data/平均价格.json",
+    "heroes": "/src/components/data/heroes.json",
+    "items": "/src/components/data/items.json",
+    "itemType": "/src/components/data/item_type.json",
+    "i18nJson": "/src/components/data/texts_zh.json",
+    "平均价格": "/src/components/data/平均价格.json",
     "all": 'https://smartytitans.com/api/item/last/all',
-    "rawItemTypeData": "http://101.35.240.107/data/raw_item_type_data.json",
-    "flashQuests":    "http://101.35.240.107/data/flash_quests.json",
-    "quests":    "http://101.35.240.107/data/quests.json",
+    "rawItemTypeData": "/src/components/data/raw_item_type_data.json",
+    "flashQuests": "/src/components/data/flash_quests.json",
+    "quests": "/src/components/data/quests.json",
+    "item_type_data": "/src/components/data/item_type_data.json",
+    "item_type_zh": "/src/components/data/item_type_zh.json",
+    "enJson": "/src/components/data/texts_en.json",
+    "zhJson": "/src/components/data/texts_zh.json",
 }
 const rawDict={}
 
@@ -74,13 +78,12 @@ function getCacheDuration(key) {
 
 export async function getI18nJson() {
     const store = useCounterStore();
-    const jsonData = await getJson('i18nJson', `http://101.35.240.107/data/texts_${store.lang}.json`)
+    const jsonData = await getJson('i18nJson')
     return jsonData['texts'];
 }
 
 export async function getAllItemsJson() {
-    let lang = store.lang;
-    const jsonData = await getJson('all', 'https://smartytitans.com/api/item/last/all');
+    const jsonData = await getJson('all');
     return jsonData['data'];
 }
 

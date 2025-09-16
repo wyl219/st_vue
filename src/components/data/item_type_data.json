@@ -1,0 +1,201 @@
+{
+    "物品类型": {
+        "重甲": true,
+        "轻甲": true,
+        "中甲": true,
+        "重鞋": true,
+        "轻鞋": true,
+        "铁护手": true,
+        "护腕": true,
+        "头盔": true,
+        "法师帽": true,
+        "盗贼帽": true,
+        "草药": true,
+        "药水": true,
+        "法术": true,
+        "斧": true,
+        "弓": true,
+        "弩": true,
+        "匕首": true,
+        "火枪": true,
+        "锤": true,
+        "矛": true,
+        "剑": true,
+        "法杖": true,
+        "魔杖": true,
+        "护身符": true,
+        "斗篷": true,
+        "使魔": true,
+        "戒指": true,
+        "盾牌": true,
+        "符文石": true,
+        "附魔": true,
+        "月光石": true,
+        "光环": true,
+        "餐食": true,
+        "甜点": true,
+        "材料": true,
+        "乐器": true
+    },
+    "装备类型": {
+        "重甲": true,
+        "轻甲": true,
+        "中甲": true,
+        "重鞋": true,
+        "轻鞋": true,
+        "铁护手": true,
+        "护腕": true,
+        "头盔": true,
+        "法师帽": true,
+        "盗贼帽": true,
+        "草药": true,
+        "药水": true,
+        "法术": true,
+        "斧": true,
+        "弓": true,
+        "弩": true,
+        "匕首": true,
+        "火枪": true,
+        "锤": true,
+        "矛": true,
+        "剑": true,
+        "法杖": true,
+        "魔杖": true,
+        "护身符": true,
+        "斗篷": true,
+        "使魔": true,
+        "戒指": true,
+        "盾牌": true,
+        "光环": true,
+        "餐食": true,
+        "甜点": true,
+        "乐器": true
+    },
+    "家具类别筛选": {
+        "护甲架": {
+            "重甲": true,
+            "轻甲": true,
+            "中甲": true,
+            "重鞋": true,
+            "轻鞋": true,
+            "铁护手": true,
+            "护腕": true,
+            "头盔": true,
+            "法师帽": true,
+            "盗贼帽": true,
+            "斗篷": true
+        },
+        "垂直货架": {
+            "斧": true,
+            "锤": true,
+            "矛": true,
+            "剑": true,
+            "法杖": true
+        },
+        "货架": {
+            "草药": true,
+            "药水": true,
+            "法术": true,
+            "护身符": true,
+            "使魔": true,
+            "戒指": true,
+            "光环": true,
+            "餐食": true,
+            "甜点": true
+        },
+        "桌子": {
+            "弓": true,
+            "弩": true,
+            "匕首": true,
+            "火枪": true,
+            "魔杖": true,
+            "乐器": true
+        }
+    },
+    "氪金工人装备类型": {
+        "重甲": false,
+        "轻甲": false,
+        "中甲": false,
+        "重鞋": false,
+        "轻鞋": false,
+        "铁护手": false,
+        "护腕": false,
+        "头盔": false,
+        "法师帽": false,
+        "盗贼帽": false,
+        "草药": false,
+        "药水": false,
+        "法术": false,
+        "斧": false,
+        "弓": false,
+        "弩": false,
+        "匕首": false,
+        "火枪": true,
+        "锤": false,
+        "矛": false,
+        "剑": false,
+        "法杖": false,
+        "魔杖": true,
+        "护身符": false,
+        "斗篷": true,
+        "使魔": true,
+        "戒指": false,
+        "盾牌": false,
+        "光环": true,
+        "餐食": false,
+        "甜点": true,
+        "乐器": true
+    },
+    "主要材料装备类型": {
+        "铁法": {
+            "光环": true
+        },
+        "铁珠": {
+            "剑": true,
+            "火枪": true,
+            "重甲": true,
+            "重鞋": true,
+            "铁护手": true,
+            "头盔": true,
+            "护身符": true,
+            "戒指": true
+        },
+        "铁": {
+            "匕首": true
+        },
+        "木法": {
+            "锤": true,
+            "法杖": true
+        },
+        "木珠": {
+            "斧": true,
+            "矛": true,
+            "弓": true,
+            "魔杖": true,
+            "弩": true,
+            "盾牌": true
+        },
+        "草法": {
+            "乐器": true,
+            "草药": true,
+            "药水": true,
+            "法术": true,
+            "餐食": true,
+            "甜点": true
+        },
+        "草珠": {
+            "使魔": true
+        },
+        "皮法": {
+            "中甲": true,
+            "轻甲": true,
+            "轻鞋": true,
+            "护腕": true,
+            "法师帽": true,
+            "盗贼帽": true
+        },
+        "皮珠": {
+            "斗篷": true
+        }
+    }
+}

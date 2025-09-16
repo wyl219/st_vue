@@ -139,8 +139,8 @@ export   async function 特殊事件(timestamp) {
 
 export async function calendarByTime(timestamp) {
 
-    ITEM_TYPE_DATA_JSON = (await getJson("item_type_data",'http://101.35.240.107/data/item_type_data.json'));
-    ITEM_TYPE_ZH = await getJson("item_type_zh",'http://101.35.240.107/data/item_type_zh.json');
+    ITEM_TYPE_DATA_JSON = await getJson("item_type_data");
+    ITEM_TYPE_ZH = await getJson("item_type_zh");
     HEROES_JSON = await getJson("heroes");
     ITEMS_TYPE = await getJson("itemType");
     // console.log(HEROES_JSON)

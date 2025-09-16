@@ -1,0 +1,142 @@
+{
+    "FQresearch01": {
+        "uid": "FQresearch01",
+        "name": "城堡书库",
+        "family": "research",
+        "掉落": "研究卷轴",
+        "minLevel": 20,
+        "attempts": 2,
+        "party": 4,
+        "date": 14
+    },
+    "FQtraining01": {
+        "uid": "FQtraining01",
+        "name": "训练场",
+        "family": "training",
+        "掉落": "英雄经验",
+        "minLevel": 23,
+        "attempts": 3,
+        "party": 4,
+        "date": 8
+    },
+    "FQkey01": {
+        "uid": "FQkey01",
+        "name": "藏宝库",
+        "family": "key",
+        "掉落": "钥匙",
+        "minLevel": 25,
+        "attempts": 2,
+        "party": 4,
+        "date": 24
+    },
+    "FQgear01": {
+        "uid": "FQgear01",
+        "name": "商队",
+        "family": "gear",
+        "掉落": "各种装备",
+        "minLevel": 28,
+        "attempts": 3,
+        "party": 4,
+        "date": 12
+    },
+    "FQchest01": {
+        "uid": "FQchest01",
+        "name": "沉船",
+        "family": "chest",
+        "掉落": "幸运箱",
+        "minLevel": 30,
+        "attempts": 2,
+        "party": 4,
+        "date": 20
+    },
+    "FQrune01": {
+        "uid": "FQrune01",
+        "name": "符文石采集场",
+        "family": "rune",
+        "掉落": "符文石",
+        "minLevel": 34,
+        "attempts": 2,
+        "party": 4,
+        "date": 16
+    },
+    "FQmoon01": {
+        "uid": "FQmoon01",
+        "name": "月色洞穴",
+        "family": "moon",
+        "掉落": "月光石",
+        "minLevel": 35,
+        "attempts": 2,
+        "party": 4,
+        "date": 10
+    },
+    "FQlcog01": {
+        "uid": "FQlcog01",
+        "name": "镶金之墓",
+        "family": "lcog",
+        "掉落": "丰裕珠宝",
+        "minLevel": 38,
+        "attempts": 2,
+        "party": 5,
+        "date": 2
+    },
+    "FQenchant01": {
+        "uid": "FQenchant01",
+        "name": "魔法师塔楼",
+        "family": "enchant",
+        "掉落": "魔法符文",
+        "minLevel": 41,
+        "attempts": 2,
+        "party": 4,
+        "date": 4
+    },
+    "FQchampion01": {
+        "uid": "FQchampion01",
+        "name": "勇士巢穴",
+        "family": "champion",
+        "掉落": "勇士金币",
+        "minLevel": 44,
+        "attempts": 2,
+        "party": 4,
+        "date": 28
+    },
+    "FQrepair01": {
+        "uid": "FQrepair01",
+        "name": "岩浆工坊",
+        "family": "repair",
+        "掉落": "维修工具",
+        "minLevel": 47,
+        "attempts": 3,
+        "party": 4,
+        "date": 18
+    },
+    "FQfancygear01": {
+        "uid": "FQfancygear01",
+        "name": "将军的秘宝",
+        "family": "fancygear",
+        "掉落": "珍奇装备",
+        "minLevel": 52,
+        "attempts": 2,
+        "party": 4,
+        "date": 26
+    },
+    "FQsigil01": {
+        "uid": "FQsigil01",
+        "name": "雪怪藏身处",
+        "family": "sigil",
+        "掉落": "魔符</c1>！更高难度有可能掉落<c1>真·魔符",
+        "minLevel": 54,
+        "attempts": 2,
+        "party": 4,
+        "date": 6
+    },
+    "FQascension01": {
+        "uid": "FQascension01",
+        "name": "火山核心",
+        "family": "ascension",
+        "掉落": "升星碎片",
+        "minLevel": 56,
+        "attempts": 2,
+        "party": 4,
+        "date": 22
+    }
+}
