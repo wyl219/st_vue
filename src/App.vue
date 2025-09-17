@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ParentComponent1 from './components/飞龙计算.vue';
+import ParentComponent1 from './components/noapi_飞龙计算.vue';
 import calendar from './components/日历.vue';
 import {computed} from "vue";
 import {useCounterStore} from "@/stores/useCounterStore.js";
